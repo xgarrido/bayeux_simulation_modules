@@ -1,0 +1,14 @@
+#+TITLE:  Bayeux Simulation Modules
+#+AUTHOR: Xavier Garrido
+#+DATE:   2013-11-01
+#+OPTIONS: ^:{}
+
+This repository holds several modules, one per directory, for simulation withing
+[[https://nemo.lpc-caen.in2p3.fr/wiki/Software/Bayeux][Bayeux]] framework :
+
+- [[./geant4_validation/README.org][geant4_validation]] :: This directory sets up a minimal and simple geometry
+     layout to test Geant4 simulation and to validate Geant4 Physics list. It
+     generates plots of relevant physical "quantities" such as energy loss in
+     materials, scattering angle distribution.
+- [[./hpge_simulation/README.org][hpge_simulation]] :: This directory holds a full setup from geometry declaration
+     to analysis modules to perform High Purity Germanium simulations.
