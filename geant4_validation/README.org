@@ -1994,6 +1994,7 @@ named =geant4_validation=. The following table sets the libraries
 #+TBLNAME: dll_libraries :results none
 |-----------------------+---------------------------------------------------------------------|
 | Bayeux_mctools_geant4 | $SNAILWARE_PRO_DIR/bayeux/install/lib64/libBayeux_mctools_geant4.so |
+| geant4_validation     | @GEANT4_VALIDATION_DIR@/install/libgeant4_validation.so             |
 |-----------------------+---------------------------------------------------------------------|
 
 #+BEGIN_SRC sh :noweb yes
