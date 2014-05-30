@@ -15,11 +15,12 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 # - Third party
-find_package(mctools 1.0.0 REQUIRED)
+find_package(Bayeux 1.0.0 REQUIRED)
 
-include_directories(${PROJECT_SOURCE_DIR} ${mctools_INCLUDE_DIRS})
+include_directories(${PROJECT_SOURCE_DIR} ${Bayeux_INCLUDE_DIRS})
 
-add_library(geant4_validation SHARED)
+add_library(geant4_validation SHARED
+  geant4_validation_module.h geant4_validation_module.cc)
 
 target_link_libraries(geant4_validation ${mctools_LIBRARY_DIR})
 
