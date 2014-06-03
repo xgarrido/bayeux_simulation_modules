@@ -2068,7 +2068,7 @@ named =geant4_validation=. The following table sets the libraries
 *** Event generator
 #+BEGIN_SRC sh
   #@description The event generator PRNG label
-  manager.event_generator_name  : string  = "Bi207"
+  manager.event_generator_name  : string  = "electron_1MeV_cone"
 #+END_SRC
 *** Simulation manager
 #+BEGIN_SRC sh
