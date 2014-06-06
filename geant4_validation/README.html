@@ -2663,6 +2663,11 @@ named <code>geant4_validation</code>. The following table sets the libraries
 <td class="left">Bayeux_mctools_geant4</td>
 <td class="left">$SNAILWARE_PRO_DIR/bayeux/install/lib64/libBayeux_mctools_geant4.so</td>
 </tr>
+
+<tr>
+<td class="left">geant4_validation</td>
+<td class="left">@GEANT4_VALIDATION_DIR@/install/libgeant4_validation.so</td>
+</tr>
 </tbody>
 </table>
 
@@ -2673,6 +2678,10 @@ named <code>geant4_validation</code>. The following table sets the libraries
 <span class="org-comment-delimiter">#</span><span class="org-comment">@meta_label  "filename"</span>
 [<span class="org-variable-name">name</span>=<span class="org-string">"Bayeux_mctools_geant4"</span> <span class="org-variable-name">filename</span>=<span class="org-string">"$SNAILWARE_PRO_DIR/bayeux/install/lib64/libBayeux_mctools_geant4.so"</span>]
 <span class="org-comment-delimiter">#</span><span class="org-comment">config The Bayeux_mctools_geant4 library</span>
+<span class="org-builtin">autoload</span> : <span class="org-variable-name">boolean</span> = 1
+
+[<span class="org-variable-name">name</span>=<span class="org-string">"geant4_validation"</span> <span class="org-variable-name">filename</span>=<span class="org-string">"@GEANT4_VALIDATION_DIR@/install/libgeant4_validation.so"</span>]
+<span class="org-comment-delimiter">#</span><span class="org-comment">config The geant4_validation library</span>
 <span class="org-builtin">autoload</span> : <span class="org-variable-name">boolean</span> = 1
 </pre>
 </div>
@@ -2789,7 +2798,7 @@ manager.vertex_generator_name : <span class="org-variable-name">string</span>  =
 <div class="org-src-container">
 
 <pre class="src src-sh"><span class="org-comment-delimiter">#</span><span class="org-comment">@description The event generator PRNG label</span>
-manager.event_generator_name  : <span class="org-variable-name">string</span>  = <span class="org-string">"Bi207"</span>
+manager.event_generator_name  : <span class="org-variable-name">string</span>  = <span class="org-string">"electron_1MeV_cone"</span>
 </pre>
 </div>
 </div>
@@ -3089,11 +3098,10 @@ and install the <code>geant4_validation</code> module by doing
 
 <pre class="src src-sh">mkdir {build,install} &amp;&amp; <span class="org-builtin">cd</span> build
 cmake                                               <span class="org-sh-escaped-newline">\</span>
-    -DCMAKE_PREFIX_PATH=<span class="org-string">"&lt;path to Falaise install&gt;"</span> <span class="org-sh-escaped-newline">\</span>
+    -DCMAKE_PREFIX_PATH=<span class="org-string">"&lt;path to Bayeux install&gt;"</span>  <span class="org-sh-escaped-newline">\</span>
     -DCMAKE_INSTALL_PREFIX=../install               <span class="org-sh-escaped-newline">\</span>
     ../source
 make install
-<span class="org-builtin">cd</span> ..
 </pre>
 </div>
 </div>
@@ -3103,57 +3111,31 @@ make install
 <h3 id="sec-8-3"><span class="section-number-3">8.3</span> Use and execute <code>geant4_validation</code> module</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
+You will need to define the path to the <code>Bayeux_mctools_g4</code> library as shown in
+Table <i>tab::dll_libraries</i>. You can either change the path to the library or
+export the environment variable <code>SNAILWARE_PRO_DIR</code>.
+</p>
+
+<p>
 After a successful build, you will get an <code>install</code> directory holding the
-<code>libgeant4_validation.so</code> file. Assuming you are under <code>bash</code> shell, you will
-need to add it to your <code>LD_LIBRARY_PATH</code> by doing
+<code>libgeant4_validation.so</code> file. If you have installed the library somewhere else
+you must also change the path to it in the Table <i>tab::dll_libraries</i>.
 </p>
-<div class="org-src-container">
-
-<pre class="src src-sh"><span class="org-builtin">export</span> <span class="org-variable-name">LD_LIBRARY_PATH</span>=${<span class="org-variable-name">PWD</span>}/install/lib:${<span class="org-variable-name">LD_LIBRARY_PATH</span>}
-</pre>
-</div>
 
 <p>
-Another approach, maybe less intrusive, will be to set the <code>LD_LIBRARY_PATH</code>
-when running the <code>dpp_processing</code> binary. You can for example write something
-like
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh"><span class="org-variable-name">LD_LIBRARY_PATH</span>=${<span class="org-variable-name">PWD</span>}/install/lib:${<span class="org-variable-name">LD_LIBRARY_PATH</span>} dpp_processing ...
-</pre>
-</div>
-
-<p>
-Running processing pipeline is done by the <code>dpp_processing</code> program provided by
-<code>dpp</code> library. Its call is pretty simple and only implies to have a module
-manager file and the name of the module to be run <i>i.e.</i>
+Running processing pipeline is done by the <code>bxdpp_processing</code> program provided
+by the <code>dpp</code> library. Its call is pretty simple and only implies to have a
+module manager file and the name of the module to be run <i>i.e.</i>
 <code>geant4_validation_module</code>. Nevertheless, you need to dynamically load the
-library(ies) which holds the needed modules.
+library(ies) which holds the needed modules. You can use the <code>dlls.conf</code> file
+built in section <a href="#sec-5-3">5.3</a> by writing
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-sh">dpp_processing                                                       <span class="org-sh-escaped-newline">\</span>
+<pre class="src src-sh">bxdpp_processing                                                     <span class="org-sh-escaped-newline">\</span>
     --module-manager-config $<span class="org-variable-name">PWD</span>/config/pipeline/module_manager.conf <span class="org-sh-escaped-newline">\</span>
     --module geant4_validation_module                                <span class="org-sh-escaped-newline">\</span>
-    --load-dll geant4_validation                                     <span class="org-sh-escaped-newline">\</span>
-    --load-dll &lt;library&gt;_bio
-</pre>
-</div>
-
-<p>
-<code>&lt;library&gt;_bio</code> represents libraries which holds event data models such as
-<code>mctools_bio</code>. You can use the <code>dlls.conf</code> file built in section <a href="#sec-5-3">5.3</a> by
-writing
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-sh">dpp_processing                                                       <span class="org-sh-escaped-newline">\</span>
-    --module-manager-config $<span class="org-variable-name">PWD</span>/config/pipeline/module_manager.conf <span class="org-sh-escaped-newline">\</span>
-    --module geant4_validation_module                                <span class="org-sh-escaped-newline">\</span>
-    --load-dll geant4_validation                                     <span class="org-sh-escaped-newline">\</span>
     --dll-config $<span class="org-variable-name">PWD</span>/config/pipeline/dlls.conf
 </pre>
 </div>
@@ -3179,7 +3161,7 @@ name. You can change the output directory and output file name in <a href="#sec-
 </div>
 </div></div>
 <div id="postamble" class="status">
-File under <i class="fa fa-github-alt"></i> version control - commit <a href="https://github.com/xgarrido/bayeux_simulation_modules/commit/3a8028100ff6f46898e1e3d69bb67c779d4595f7">3a80281</a> - 2014-05-22
+File under <i class="fa fa-github-alt"></i> version control - commit <a href="https://github.com/xgarrido/bayeux_simulation_modules/commit/b03b1522c5c8b0ed342f31f04fa63cb91263bf75">b03b152</a> - 2014-06-06
 </div>
 </body>
 </html>
