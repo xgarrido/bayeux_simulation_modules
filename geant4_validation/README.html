@@ -118,6 +118,7 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-6-1">6.1. Simulation module</a></li>
 <li><a href="#sec-6-2">6.2. Validation module</a></li>
+<li><a href="#sec-6-3">6.3. Chain module</a></li>
 </ul>
 </li>
 <li><a href="#sec-7">7. Services</a>
@@ -2554,9 +2555,10 @@ service_manager.configuration : string[1] as <span class="org-variable-name">pat
 <div class="org-src-container">
 
 <pre class="src src-sh"><span class="org-comment-delimiter">#</span><span class="org-comment">@description The configuration files for modules</span>
-modules.configuration_files : string[2] as <span class="org-variable-name">path</span> =                           <span class="org-sh-escaped-newline">\</span>
+modules.configuration_files : string[3] as <span class="org-variable-name">path</span> =                           <span class="org-sh-escaped-newline">\</span>
     <span class="org-string">"@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_simulation_module.conf"</span> <span class="org-sh-escaped-newline">\</span>
-    <span class="org-string">"@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_validation_module.conf"</span>
+    <span class="org-string">"@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_validation_module.conf"</span> <span class="org-sh-escaped-newline">\</span>
+    <span class="org-string">"@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_chain_module.conf"</span>
 </pre>
 </div>
 </div>
@@ -2915,6 +2917,66 @@ max : <span class="org-variable-name">real</span> = 3200.0
 </li></ul>
 </div>
 </div>
+
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> Chain module</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+This <code>geant4_chain_module</code> provides a <code>chain_module</code> in order to simulate first
+and then analyse the results of simulation through the <i>Geant4 validation module</i>.
+</p>
+</div>
+<div id="outline-container-sec-6-3-1" class="outline-4">
+<h4 id="sec-6-3-1"><span class="section-number-4">6.3.1</span> Module preamble</h4>
+<div class="outline-text-4" id="text-6-3-1">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="org-comment-delimiter">#</span><span class="org-comment">@description A sample list of setups</span>
+<span class="org-comment-delimiter">#</span><span class="org-comment">@key_label   "name"</span>
+<span class="org-comment-delimiter">#</span><span class="org-comment">@meta_label  "type"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-3-2" class="outline-4">
+<h4 id="sec-6-3-2"><span class="section-number-4">6.3.2</span> Declaration &amp; description</h4>
+<div class="outline-text-4" id="text-6-3-2">
+<div class="org-src-container">
+
+<pre class="src src-sh">[<span class="org-variable-name">name</span>=<span class="org-string">"geant4_chain_module"</span> <span class="org-variable-name">type</span>=<span class="org-string">"dpp::chain_module"</span>]
+
+<span class="org-comment-delimiter">#</span><span class="org-comment">@description A module to chain several modules</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3-3" class="outline-4">
+<h4 id="sec-6-3-3"><span class="section-number-4">6.3.3</span> Logging priority</h4>
+<div class="outline-text-4" id="text-6-3-3">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="org-comment-delimiter">#</span><span class="org-comment">@description Logging priority</span>
+logging.priority : <span class="org-variable-name">string</span> = <span class="org-string">"warning"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3-4" class="outline-4">
+<h4 id="sec-6-3-4"><span class="section-number-4">6.3.4</span> Modules to be chained</h4>
+<div class="outline-text-4" id="text-6-3-4">
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="org-comment-delimiter">#</span><span class="org-comment">@description The list of processing modules to be applied (in this order)</span>
+modules : <span class="org-variable-name">string</span>[2] =          <span class="org-sh-escaped-newline">\</span>
+    <span class="org-string">"geant4_simulation_module"</span> <span class="org-sh-escaped-newline">\</span>
+    <span class="org-string">"geant4_validation_module"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-sec-7" class="outline-2">
@@ -3129,7 +3191,7 @@ name. You can change the output directory and output file name in <a href="#sec-
 </div>
 </div></div>
 <div id="postamble" class="status">
-File under <i class="fa fa-github-alt"></i> version control - commit <a href="https://github.com/xgarrido/bayeux_simulation_modules/commit/e427f2ce9d827b375eddf3bef9cf3d6609c9d287">e427f2c</a> - 2014-06-06
+File under <i class="fa fa-github-alt"></i> version control - commit <a href="https://github.com/xgarrido/bayeux_simulation_modules/commit/9ec270e9b2a620318fe405703663b0dc3e11d6ca">9ec270e</a> - 2014-06-06
 </div>
 </body>
 </html>
