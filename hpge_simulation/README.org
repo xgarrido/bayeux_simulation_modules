@@ -429,10 +429,10 @@ to change the source sample isotope.
 *** Files
 #+BEGIN_SRC sh
   #@description List of files describing the materials
-  materials.files : string[4] as path =   \
-      "@materials:data/std_isotopes.def"  \
-      "@materials:data/std_elements.def"  \
-      "@materials:data/std_materials.def" \
+  materials.configuration_files : string[4] as path = \
+      "@materials:data/std_isotopes.def"              \
+      "@materials:data/std_elements.def"              \
+      "@materials:data/std_materials.def"             \
       "@HPGE_SIMULATION_DIR@/config/geometry/hpge_materials.def"
 #+END_SRC
 *** Material aliases
@@ -443,13 +443,6 @@ to change the source sample isotope.
   #@description A list of materials for BiPo experiment
   #@key_label   "name"
   #@meta_label  "type"
-
-  [name="Germanium" type="element"]
-  #@description The Ge natural element
-  z               : integer   = 32
-  isotope.names   : string[5] = "Ge-70" "Ge-72" "Ge-73"  "Ge-74"  "Ge-76"
-  isotope.weights : real[5]   = 0.209 0.275  0.077 0.363 0.076
-
 
   [name="hpge::germanium" type="material"]
   #@description natural Ge material
