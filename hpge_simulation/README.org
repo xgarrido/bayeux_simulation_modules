@@ -830,7 +830,7 @@ module configuration to analyse simulated data.
 
   sensitive.germanium_SD.logging.priority               : string = "warning"
   sensitive.germanium_SD.hits_buffer_capacity           : integer = 1000
-  sensitive.Germanium_SD.record_alpha_quenching         : boolean = 0
+  sensitive.germanium_SD.record_alpha_quenching         : boolean = 0
   sensitive.germanium_SD.record_track_id                : boolean = 1
   sensitive.germanium_SD.record_primary_particle        : boolean = 1
   sensitive.germanium_SD.drop_zero_energy_deposit_steps : boolean = 0
