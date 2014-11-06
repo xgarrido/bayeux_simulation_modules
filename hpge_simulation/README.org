@@ -1419,10 +1419,10 @@ need to add it to your =LD_LIBRARY_PATH= by doing
 #+END_SRC
 
 Another approach, maybe less intrusive, will be to set the =LD_LIBRARY_PATH=
-when running the =dpp_processing= binary. You can for example write something
+when running the =bxdpp_processing= binary. You can for example write something
 like
 #+BEGIN_SRC sh
-  LD_LIBRARY_PATH=${PWD}/install/lib:${LD_LIBRARY_PATH} dpp_processing ...
+  LD_LIBRARY_PATH=${PWD}/install/lib:${LD_LIBRARY_PATH} bxdpp_processing ...
 #+END_SRC
 
 Running processing pipeline is done by the =dpp_processing= program provided by
@@ -1432,22 +1432,21 @@ manager file and the name of the module to be run /i.e./
 library(ies) which holds the needed modules.
 
 #+BEGIN_SRC sh
-  dpp_processing                                                       \
+  bxdpp_processing                                                     \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
       --module hpge_simulation_module                                  \
       --load-dll hpge_simulation                                       \
-      --load-dll <library>_bio
+      --load-dll Bayeux_mctools_geant4
 #+END_SRC
 
-=<library>_bio= represents libraries which holds event data models such as
-=mctools_bio=. You can use the =dlls.conf= file built in section [[DLL loader]] by
+=Bayeux_mctools_geant4= represents the library which holds the Geant4
+interface. You can use the =dlls.conf= file built in section [[DLL loader]] by
 writing
 
 #+BEGIN_SRC sh
-  dpp_processing                                                       \
+  bxdpp_processing                                                     \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
-      --module hpge_simulation_module                                 \
-      --load-dll hpge_simulation                                      \
+      --module hpge_simulation_module                                  \
       --dll-config $PWD/config/pipeline/dlls.conf
 #+END_SRC
 
