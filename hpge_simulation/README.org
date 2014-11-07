@@ -1044,6 +1044,23 @@ module configuration to analyse simulated data.
   cluster.space_range   : real as length = 10.0 mm
 #+END_SRC
 ***** Visualization hit processors
+
+Adding a step hit processor inside Germanium crystal
+#+BEGIN_SRC sh
+  [name="calorimeter.visu.hit_processor" type="mctools::push_all_step_hit_processor"]
+
+  #@config The step hit processor for collecting the crystal simulated hits
+
+  #@description Logging flag
+  logging.priority   : string = "warning"
+
+  #@description The category of output hit associated to this processor
+  hit.category       : string = "__visu.tracks"
+
+  #@description The name of the sensitive MC hits that must be processed to fill the output hit category
+  sensitive.category : string = "germanium_SD"
+#+END_SRC
+and another one for all other volumes
 #+BEGIN_SRC sh
   [name="all.volumes.visu.hit_processor" type="mctools::push_all_step_hit_processor"]
 
