@@ -1145,7 +1145,7 @@ component.
   save.prefix    : string = "event_"
 #+END_SRC
 
-* COMMENT Simulation setup
+* Simulation setup
 ** Geant4 configuration
 :PROPERTIES:
 :TANGLE: config/pipeline/g4_manager.conf
