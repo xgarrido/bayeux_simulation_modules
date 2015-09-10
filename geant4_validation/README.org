@@ -2021,7 +2021,7 @@ named =geant4_validation=. The following table sets the libraries
 :PROPERTIES:
 :CUSTOM_ID: sec::modules
 :END:
-** Simulation module
+** COMMENT Simulation module
 :PROPERTIES:
 :TANGLE: config/pipeline/geant4_simulation_module.conf
 :END:
@@ -2097,7 +2097,7 @@ named =geant4_validation=. The following table sets the libraries
       "@GEANT4_VALIDATION_DIR@/config/pipeline/g4_manager.conf"
 #+END_SRC
 
-** Validation module
+** COMMENT Validation module
 :PROPERTIES:
 :TANGLE:   config/pipeline/geant4_validation_module.conf
 :END:
@@ -2187,7 +2187,7 @@ histograms:
   max : real = 3200.0
 #+END_SRC
 
-** Chain module
+** COMMENT Chain module
 :PROPERTIES:
 :TANGLE: config/pipeline/geant4_chain_module.conf
 :END:
