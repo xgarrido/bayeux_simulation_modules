@@ -47,7 +47,7 @@ which will tangle each code block into the given file[fn:2] or use the associate
 process is asynchronous and thus, does not freeze your emacs (=org-babel-tangle=
 "occupies" emacs during its execution).
 
-* COMMENT Geometry setup
+* Geometry setup
 ** Manager configuration
 :PROPERTIES:
 :MKDIRP: yes
