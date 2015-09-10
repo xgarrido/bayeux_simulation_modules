@@ -1892,7 +1892,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   geometry.volumes.all : boolean = 1
 #+END_SRC
 
-* COMMENT Pipeline general configuration
+* Pipeline general configuration
 
 SN@ilWare implements the concept of data processing pipeline. An event record
 object is passed through a chain of data processing modules, each of them being
