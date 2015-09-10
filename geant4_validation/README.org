@@ -1897,9 +1897,9 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 SN@ilWare implements the concept of data processing pipeline. An event record
 object is passed through a chain of data processing modules, each of them being
 responsible for a given task. Modules and services are declared in Section
-[[Modules]] and Section [[Services]]. For more details on running SuperNEMO simulations
-and the concept behind modules/services see [[http://nile.hep.utexas.edu/cgi-bin/DocDB/ut-nemo/private/ShowDocument?docid=1889][these mandatory presentations]] given
-by F. Mauger.
+[[#sec::modules]] and Section [[#sec::services]]. For more details on running SuperNEMO
+simulations and the concept behind modules/services see [[http://nile.hep.utexas.edu/cgi-bin/DocDB/ut-nemo/private/ShowDocument?docid=1889][these mandatory
+presentations]] given by F. Mauger.
 
 The =@GEANT4_VALIDATION_DIR@= corresponds to the directory where configuration
 files are going to be stored. This variable which varies from one installation
@@ -2018,6 +2018,9 @@ named =geant4_validation=. The following table sets the libraries
   <<dll_loader(dll_libraries[*,0], dll_libraries[*,1])>>
 #+END_SRC
 * Modules configuration
+:PROPERTIES:
+:CUSTOM_ID: sec::modules
+:END:
 ** Simulation module
 :PROPERTIES:
 :TANGLE: config/pipeline/geant4_simulation_module.conf
@@ -2220,6 +2223,7 @@ and then analyse the results of simulation through the [[Validation +module][Gea
 
 * Services
 :PROPERTIES:
+:CUSTOM_ID: sec::services
 :TANGLE: config/pipeline/services.conf
 :END:
 
