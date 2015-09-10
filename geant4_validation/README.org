@@ -2187,13 +2187,13 @@ histograms:
   max : real = 3200.0
 #+END_SRC
 
-** COMMENT Chain module
+** Chain module
 :PROPERTIES:
 :TANGLE: config/pipeline/geant4_chain_module.conf
 :END:
 
 This =geant4_chain_module= provides a =chain_module= in order to simulate first
-and then analyse the results of simulation through the [[Validation +module][Geant4 validation module]].
+and then analyse the results of simulation through the [[Validation module][Geant4 validation module]].
 *** Module preamble
 #+BEGIN_SRC sh
   #@description A sample list of setups
@@ -2311,7 +2311,7 @@ Finally, all histograms created can be stored inside ROOT files or XML archives.
       "/tmp/${USER}/bayeux.d/geant4_vlaidation_histos.xml"
 #+END_SRC
 
-* COMMENT Running SN@ilWare processing chain
+* Running SN@ilWare processing chain
 ** Tangling configuration
 First, you need to tangle this file. As explained in the [[Content][Content]] section, you
 may use the dedicated =Makefile= to generate the pipeline configuration. Just
