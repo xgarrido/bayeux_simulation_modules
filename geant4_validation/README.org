@@ -2021,7 +2021,7 @@ named =geant4_validation=. The following table sets the libraries
 :PROPERTIES:
 :CUSTOM_ID: sec::modules
 :END:
-** COMMENT Simulation module
+** Simulation module
 :PROPERTIES:
 :TANGLE: config/pipeline/geant4_simulation_module.conf
 :END:
