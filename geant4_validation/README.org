@@ -2221,7 +2221,7 @@ and then analyse the results of simulation through the [[Validation +module][Gea
       "geant4_validation_module"
 #+END_SRC
 
-* COMMENT Services
+* Services
 :PROPERTIES:
 :CUSTOM_ID: sec::services
 :TANGLE: config/pipeline/services.conf
