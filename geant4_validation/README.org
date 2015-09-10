@@ -2097,7 +2097,7 @@ named =geant4_validation=. The following table sets the libraries
       "@GEANT4_VALIDATION_DIR@/config/pipeline/g4_manager.conf"
 #+END_SRC
 
-** COMMENT Validation module
+** Validation module
 :PROPERTIES:
 :TANGLE:   config/pipeline/geant4_validation_module.conf
 :END:
