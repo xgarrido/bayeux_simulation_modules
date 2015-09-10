@@ -2017,7 +2017,7 @@ named =geant4_validation=. The following table sets the libraries
 #+BEGIN_SRC sh :noweb yes
   <<dll_loader(dll_libraries[*,0], dll_libraries[*,1])>>
 #+END_SRC
-* COMMENT Modules configuration
+* Modules configuration
 :PROPERTIES:
 :CUSTOM_ID: sec::modules
 :END:
@@ -2221,7 +2221,7 @@ and then analyse the results of simulation through the [[Validation +module][Gea
       "geant4_validation_module"
 #+END_SRC
 
-* COMMENT Services
+* Services
 :PROPERTIES:
 :CUSTOM_ID: sec::services
 :TANGLE: config/pipeline/services.conf
