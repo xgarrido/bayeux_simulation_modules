@@ -1,9 +1,9 @@
 /* geant4_validation_module.h
  * Author(s)     : Xavier Garrido <garrido@lal.in2p3.fr>
  * Creation date : 2014-05-30
- * Last modified : 2014-05-30
+ * Last modified : 2015-09-10
  *
- * Copyright (C) 2014 Xavier Garrido <garrido@lal.in2p3.fr>
+ * Copyright (C) 2014-2015 Xavier Garrido <garrido@lal.in2p3.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,8 +35,6 @@
 // Data processing module abstract base class
 #include <dpp/base_module.h>
 
-#include <string>
-
 namespace mygsl {
   class histogram_pool;
 }
@@ -52,7 +50,6 @@ namespace analysis {
 
     /// Grabbing histogram pool
     mygsl::histogram_pool & grab_histogram_pool();
-
 
     /// Constructor
     geant4_validation_module(datatools::logger::priority = datatools::logger::PRIO_FATAL);
@@ -83,17 +80,12 @@ namespace analysis {
 
   private:
 
-    // The label/name of the 'Histo' service accessible from the service manager :
-    std::string _Histo_service_label_;
-
-    // The histogram pool :
-    mygsl::histogram_pool * _histogram_pool_;
-
-    // The label/name of the bank accessible from the event record :
-    std::string _bank_label_;
+    std::string _Histo_service_label_;        //!< The label of the 'Histo' service
+    mygsl::histogram_pool * _histogram_pool_; //!< Histogram pool
+    std::string _bank_label_;                 //!< The label of data bank
 
     // Macro to automate the registration of the module :
-    DPP_MODULE_REGISTRATION_INTERFACE (geant4_validation_module);
+    DPP_MODULE_REGISTRATION_INTERFACE(geant4_validation_module);
 
   };
 
