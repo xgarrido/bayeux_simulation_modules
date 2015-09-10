@@ -2069,10 +2069,10 @@ named =geant4_validation=. The following table sets the libraries
   manager.shpf_seed             : integer = 6
 
   #@description The saving of PRNG seeds
-  manager.output_prng_seeds_file  : string as path = "/tmp/${USER}/snemo.d/prng_seeds.save"
+  manager.output_prng_seeds_file  : string as path = "/tmp/${USER}/bayeux.d/prng_seeds.save"
 
   #@description The saving of PRNG states
-  manager.output_prng_states_file : string as path = "/tmp/${USER}/snemo.d/prng_states.save"
+  manager.output_prng_states_file : string as path = "/tmp/${USER}/bayeux.d/prng_states.save"
 
   #@description The modulo for PRNG states backup
   manager.prng_states_save_modulo : integer = 10
@@ -2244,13 +2244,13 @@ software components, including other services or data processing modules (see
   logging.priority : string = "warning"
 
   #@description File from which the context is to be loaded at program start
-  load.file : string as path  = "/tmp/${USER}/snemo.d/snemo_context.conf"
+  load.file : string as path  = "/tmp/${USER}/bayeux.d/snemo_context.conf"
 
   #@description File to store the context at program termination
-  store.file : string as path = "/tmp/${USER}/snemo.d/snemo_context_end.conf"
+  store.file : string as path = "/tmp/${USER}/bayeux.d/snemo_context_end.conf"
 
   #@description Flag to backup the former context load file
-  backup.file : string as path = "/tmp/${USER}/snemo.d/snemo_context_bak.conf"
+  backup.file : string as path = "/tmp/${USER}/bayeux.d/snemo_context_bak.conf"
 #+END_SRC
 
 ** Geometry service
@@ -2303,8 +2303,8 @@ Finally, all histograms created can be stored inside ROOT files or XML archives.
 #+BEGIN_SRC sh
   #@description The ouput file where to store the histograms
   output_files : string[2] as path =                        \
-      "/tmp/${USER}/snemo.d/geant4_validation_histos.root" \
-      "/tmp/${USER}/snemo.d/geant4_vlaidation_histos.xml"
+      "/tmp/${USER}/bayeux.d/geant4_validation_histos.root" \
+      "/tmp/${USER}/bayeux.d/geant4_vlaidation_histos.xml"
 #+END_SRC
 
 * Running SN@ilWare processing chain
@@ -2346,16 +2346,18 @@ built in Section [[DLL loader]] by writing
 
 #+BEGIN_SRC sh
   bxdpp_processing                                                     \
+      --dll-config $PWD/config/pipeline/dlls.conf                      \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
-      --module geant4_validation_module                                \
-      --dll-config $PWD/config/pipeline/dlls.conf
+      --module geant4_chain_module                                     \
+      --max-records 100                                                \
+    --output-file /tmp/${USER}/bayeux.d/io_ouput_geant4_simulation.brio
 #+END_SRC
 
-It will run the =geant4_validation_module= and it will generate a ROOT file
+It will run the =geant4_simulation_module= followed by the
+=geant4_validation_module= over 100 events and it will generate a ROOT file
 containing several histograms. This file is located by default, in
-=/tmp/${USER}/snemo.d= directory under the =geant4_validation_histos.root=
-name. You can change the output directory and output file name in [[Histogram
-service][this section]].
+=/tmp/${USER}/bayeux.d= directory under the =geant4_validation_histos.root=
+name. You can change the output directory and output file name in [[Histogram service][this section]].
 
 * Footnotes
 
