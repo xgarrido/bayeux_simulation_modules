@@ -1897,7 +1897,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 SN@ilWare implements the concept of data processing pipeline. An event record
 object is passed through a chain of data processing modules, each of them being
 responsible for a given task. Modules and services are declared in Section
-[[#sec::modules]] and Section [[#sec::services]]. For more details on running SuperNEMO
+# [[#sec::modules]] and Section [[#sec::services]]. For more details on running SuperNEMO
 simulations and the concept behind modules/services see [[http://nile.hep.utexas.edu/cgi-bin/DocDB/ut-nemo/private/ShowDocument?docid=1889][these mandatory
 presentations]] given by F. Mauger.
 
@@ -2017,7 +2017,7 @@ named =geant4_validation=. The following table sets the libraries
 #+BEGIN_SRC sh :noweb yes
   <<dll_loader(dll_libraries[*,0], dll_libraries[*,1])>>
 #+END_SRC
-* Modules configuration
+* COMMENT Modules configuration
 :PROPERTIES:
 :CUSTOM_ID: sec::modules
 :END:
@@ -2221,7 +2221,7 @@ and then analyse the results of simulation through the [[Validation +module][Gea
       "geant4_validation_module"
 #+END_SRC
 
-* Services
+* COMMENT Services
 :PROPERTIES:
 :CUSTOM_ID: sec::services
 :TANGLE: config/pipeline/services.conf
