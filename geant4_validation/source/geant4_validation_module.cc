@@ -60,23 +60,21 @@ namespace analysis {
 
     // Service label
     std::string histogram_label;
-    if (config_.has_key("Histo_label"))
-      {
-        histogram_label = config_.fetch_string("Histo_label");
-      }
-    if (! _histogram_pool_)
-      {
-        DT_THROW_IF(histogram_label.empty(), std::logic_error,
-                    "Module '" << get_name() << "' has no valid 'Histo_label' property !");
+    if (config_.has_key("Histo_label")) {
+      histogram_label = config_.fetch_string("Histo_label");
+    }
+    if (! _histogram_pool_) {
+      DT_THROW_IF(histogram_label.empty(), std::logic_error,
+                  "Module '" << get_name() << "' has no valid 'Histo_label' property !");
 
-        DT_THROW_IF(! service_manager_.has(histogram_label) ||
-                    ! service_manager_.is_a<dpp::histogram_service>(histogram_label),
-                    std::logic_error,
-                    "Module '" << get_name() << "' has no '" << histogram_label << "' service !");
-        dpp::histogram_service & Histo
-          = service_manager_.grab<dpp::histogram_service>(histogram_label);
-        set_histogram_pool(Histo.grab_pool());
-      }
+      DT_THROW_IF(! service_manager_.has(histogram_label) ||
+                  ! service_manager_.is_a<dpp::histogram_service>(histogram_label),
+                  std::logic_error,
+                  "Module '" << get_name() << "' has no '" << histogram_label << "' service !");
+      dpp::histogram_service & Histo
+        = service_manager_.grab<dpp::histogram_service>(histogram_label);
+      set_histogram_pool(Histo.grab_pool());
+    }
 
     // Tag the module as initialized :
     _set_initialized(true);
@@ -91,11 +89,10 @@ namespace analysis {
                 "Module '" << get_name() << "' is not initialized !");
 
     // Dump result
-    if (get_logging_priority() >= datatools::logger::PRIO_DEBUG)
-      {
-        DT_LOG_NOTICE(get_logging_priority(), "geant4 validation dump: ");
-        dump_result();
-      }
+    if (get_logging_priority() >= datatools::logger::PRIO_DEBUG) {
+      DT_LOG_NOTICE(get_logging_priority(), "geant4 validation dump: ");
+      dump_result();
+    }
 
     // Tag the module as un-initialized :
     _set_initialized(false);
