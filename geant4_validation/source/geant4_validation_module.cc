@@ -74,7 +74,7 @@ namespace analysis {
                     std::logic_error,
                     "Module '" << get_name() << "' has no '" << histogram_label << "' service !");
         dpp::histogram_service & Histo
-          = service_manager_.get<dpp::histogram_service>(histogram_label);
+          = service_manager_.grab<dpp::histogram_service>(histogram_label);
         set_histogram_pool(Histo.grab_pool());
       }
 
