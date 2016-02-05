@@ -2367,7 +2367,20 @@ It will run the =geant4_simulation_module= followed by the
 containing several histograms. This file is located by default, in
 =/tmp/${USER}/bayeux.d= directory under the =geant4_validation_histos.root=
 name. You can change the output directory and output file name in [[Histogram service][this section]].
+** Data visualization
 
+If you have installed the =Falaise= suite, you can use the =flvisualize= binary to
+visualize the result of the simulation. The next command launches the
+=flvisualize= with the dedicated style file defined in Section [[Visualization
+settings]].
+
+#+BEGIN_SRC sh
+  flvisualize                                                             \
+      --datatools::resource-path="geant4_validation_dir@$PWD"             \
+      --detector-config-file $PWD/config/geometry/manager.conf            \
+      --style-config-file $PWD/config/visualization/geant4_validation.sty \
+      --input-file /tmp/${USER}/bayeux.d/io_ouput_geant4_simulation.brio
+#+END_SRC
 * Footnotes
 
 [fn:1] At the time of writing this document, emacs version is 24.3.1
