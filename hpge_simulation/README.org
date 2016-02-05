@@ -84,10 +84,10 @@ The geometry factory holds all the files needed for the geometry construction.
 **** Geometry files
 #+BEGIN_SRC sh
   #@description List of files describing the geometry models
-  factory.geom_files : string[3] as path =        \
-    "@HPGE_SIMULATION_DIR@/config/geometry/sources.geom" \
-    "@HPGE_SIMULATION_DIR@/config/geometry/planar.geom"  \
-    "@HPGE_SIMULATION_DIR@/config/geometry/world.geom"
+  factory.geom_files : string[3] as path =              \
+    "@hpge_simulation_dir:config/geometry/sources.geom" \
+    "@hpge_simulation_dir:config/geometry/planar.geom"  \
+    "@hpge_simulation_dir:config/geometry/world.geom"
 #+END_SRC
 
 *** ID manager
@@ -103,7 +103,7 @@ volume.
 #+BEGIN_SRC sh
   #@description Source file of the geometry categories used by the ID manager
   id_mgr.categories_list : string as path = \
-    "@HPGE_SIMULATION_DIR@/config/geometry/categories.lis"
+    "@hpge_simulation_dir:config/geometry/categories.lis"
 #+END_SRC
 *** Mapping configuration
 #+BEGIN_SRC sh
@@ -123,7 +123,7 @@ volume.
 
   #@description Configuration files for geometry manager's plugins
   plugins.configuration_files : string[1] as path = \
-      "@HPGE_SIMULATION_DIR@/config/geometry/materials_plugin.conf"
+      "@hpge_simulation_dir:config/geometry/materials_plugin.conf"
 #+END_SRC
 
 ** Geometry models
@@ -439,7 +439,7 @@ to change the source sample isotope.
       "@materials:data/std_isotopes.def"              \
       "@materials:data/std_elements.def"              \
       "@materials:data/std_materials.def"             \
-      "@HPGE_SIMULATION_DIR@/config/geometry/hpge_materials.def"
+      "@hpge_simulation_dir:config/geometry/hpge_materials.def"
 #+END_SRC
 *** Material aliases
 :PROPERTIES:
@@ -581,10 +581,10 @@ responsible for a given task. Modules and services are declared in Section
 and the concept behind modules/services see [[http://nile.hep.utexas.edu/cgi-bin/DocDB/ut-nemo/private/ShowDocument?docid=1889][these mandatory presentations]] given
 by F. Mauger.
 
-The =@HPGE_SIMULATION_DIR@= corresponds to the directory where configuration
+The =@hpge_simulation_dir= corresponds to the directory where configuration
 files are going to be stored. This variable which varies from one installation
-to the other, is automatically changed when the tangle process occurs. This is
-done /via/ the =Makefile= which parse and replace this variable.
+to the other, can be set when executing the =bxdpp_processing= (see Section [[Use
+and execute =hpge_simulation= module]]).
 
 ** Module manager
 :PROPERTIES:
@@ -610,15 +610,15 @@ service files.
 #+BEGIN_SRC sh
   #@description The configuration file of the embedded service manager
   service_manager.configuration : string[1] as path = \
-      "@HPGE_SIMULATION_DIR@/config/pipeline/service_manager.conf"
+      "@hpge_simulation_dir:config/pipeline/service_manager.conf"
 #+END_SRC
 
 *** Configuration files for modules
 #+BEGIN_SRC sh
   #@description The configuration files for modules
   modules.configuration_files : string[2] as path =   \
-      "@HPGE_SIMULATION_DIR@/config/pipeline/simulation_modules.conf" \
-      "@HPGE_SIMULATION_DIR@/config/pipeline/analysis_modules.conf"
+      "@hpge_simulation_dir:config/pipeline/simulation_modules.conf" \
+      "@hpge_simulation_dir:config/pipeline/analysis_modules.conf"
 #+END_SRC
 
 ** Service manager
@@ -642,7 +642,7 @@ service files.
 #+BEGIN_SRC sh
   #@description The list of files that describe services
   services.configuration_files : string[1] as path = \
-      "@HPGE_SIMULATION_DIR@/config/pipeline/services.conf"
+      "@hpge_simulation_dir:config/pipeline/services.conf"
 #+END_SRC
 
 ** DLL loader
@@ -686,10 +686,10 @@ named =hpge_simulation=. The following table sets the libraries
 
 #+CAPTION: Libraries to be used by =hpge_simulation= modules
 #+TBLNAME: dll_libraries :results none
-|-----------------------+--------------------------------------------------------------|
-| hpge_analysis         | @HPGE_SIMULATION_DIR@/source/install/lib/libhpge_analysis.so |
-| Bayeux_mctools_geant4 | none                                                         |
-|-----------------------+--------------------------------------------------------------|
+|-----------------------+------------------------------------------------------|
+| hpge_analysis         | @hpge_simulation_dir:install/lib/libhpge_analysis.so |
+| Bayeux_mctools_geant4 | none                                                 |
+|-----------------------+------------------------------------------------------|
 
 #+BEGIN_SRC sh :noweb yes
   <<dll_loader(dll_libraries[*,0],dll_libraries[*,1])>>
@@ -712,7 +712,7 @@ module configuration to analyse simulated data.
 #+END_SRC
 *** Declaration & description
 #+BEGIN_SRC sh
-  [name="simulation" type="mctools::g4::simulation_module"]
+  [name="hpge_simulation" type="mctools::g4::simulation_module"]
 
   #@config 'mctools::g4::simulation_module' configuration parameters for HPGe simulation
 #+END_SRC
@@ -761,7 +761,7 @@ module configuration to analyse simulated data.
 #+BEGIN_SRC sh
   #@description The simulation manager configuration file
   manager.configuration_filename : string as path = \
-      "@HPGE_SIMULATION_DIR@/config/simulation/g4_manager.conf"
+      "@hpge_simulation_dir:config/simulation/g4_manager.conf"
 #+END_SRC
 **** Configuration
 :PROPERTIES:
@@ -793,7 +793,7 @@ module configuration to analyse simulated data.
 
   #@description Configuration file for the embedded '::genbb::manager'
   manager.config : string as path = \
-    "@HPGE_SIMULATION_DIR@/config/simulation/event_generator_manager.conf"
+    "@hpge_simulation_dir:config/simulation/event_generator_manager.conf"
 #+END_SRC
 ***** Vertex generator section
 #+BEGIN_SRC sh
@@ -801,7 +801,7 @@ module configuration to analyse simulated data.
 
   #@description Main configuration file for the vertex generator manager
   manager.config : string as path = \
-    "@HPGE_SIMULATION_DIR@/config/simulation/vertex_generator_manager.conf"
+    "@hpge_simulation_dir:config/simulation/vertex_generator_manager.conf"
 #+END_SRC
 ***** Detector construction
 #+BEGIN_SRC sh
@@ -826,7 +826,7 @@ module configuration to analyse simulated data.
 
   #@description Configuration file for the step hit processor factory:
   hit_processor_factory.config : string as path = \
-    "@HPGE_SIMULATION_DIR@/config/simulation/step_hit_processor_factory.conf"
+    "@hpge_simulation_dir:config/simulation/step_hit_processor_factory.conf"
 
   #@description Parameters for the generation of 'sensitive hits' through 'sensitive detectors' :
   sensitive.detectors : string[1] = "germanium_SD"
@@ -857,14 +857,14 @@ module configuration to analyse simulated data.
 
   #@description Configuration file of the physics constructors named 'particles'
   physics_constructors.particles.config : string as path = \
-    "@HPGE_SIMULATION_DIR@/config/simulation/physics_list_particles.conf"
+    "@hpge_simulation_dir:config/simulation/physics_list_particles.conf"
 
   #@description Class ID of the physics constructors named 'em'
   physics_constructors.em.id            : string = "mctools::g4::em_physics_constructor"
 
   #@description Configuration file of the physics constructors named 'em'
   physics_constructors.em.config        : string as path = \
-    "@HPGE_SIMULATION_DIR@/config/simulation/physics_list_em_processes.conf"
+    "@hpge_simulation_dir:config/simulation/physics_list_em_processes.conf"
 #+END_SRC
 ***** Run, event, tracking... actions
 #+BEGIN_SRC sh
@@ -1095,7 +1095,7 @@ and another one for all other volumes
 
   #@description The list of files that contain the rules for vertex generators
   vg_list : string[1] as path = \
-    "@HPGE_SIMULATION_DIR@/config/simulation/vertex_generators.conf"
+    "@hpge_simulation_dir:config/simulation/vertex_generators.conf"
 #+END_SRC
 **** Vertex generator definitions
 :PROPERTIES:
@@ -1155,8 +1155,8 @@ Generate vertex in the bulk volume of the sample
 
   #@description List of files containing particle generator definition rules
   generators.configuration_files : string[2] as path =       \
-    "@HPGE_SIMULATION_DIR@/config/simulation/event_generator_backgrounds.conf" \
-    "@HPGE_SIMULATION_DIR@/config/simulation/event_generator_misc.conf"
+    "@hpge_simulation_dir:config/simulation/event_generator_backgrounds.conf" \
+    "@hpge_simulation_dir:config/simulation/event_generator_misc.conf"
 #+END_SRC
 **** Event generator definitions
 ***** Background events
@@ -1316,7 +1316,7 @@ Generate vertex in the bulk volume of the sample
 #+END_SRC
 *** Basic analysis module
 #+BEGIN_SRC sh
-  [name="basic_analysis_module" type="hpge::basic_analysis_module"]
+  [name="hpge_basic_analysis_module" type="hpge::basic_analysis_module"]
 
   #@config A basic module to process simulated data for HPGe detector
 
@@ -1331,15 +1331,15 @@ Generate vertex in the bulk volume of the sample
 #+END_SRC
 *** Simulation \to Analysis chain
 #+BEGIN_SRC sh
-  [name="hpge_chain" type="dpp::chain_module"]
+  [name="hpge_analysis_chain" type="dpp::chain_module"]
 
   #@description Logging flag
   logging.priority : string = "warning"
 
   #@description The list of processing modules to be applied (in this order) :
   modules : string [2] = \
-      "simulation"       \
-      "basic_analysis_module"
+      "hpge_simulation"       \
+      "hpge_basic_analysis_module"
 
 #+END_SRC
 * Services
@@ -1392,7 +1392,7 @@ reconstruction modules ... but all of them will use the same geometry.
 
   #@description Embedded SuperNEMO geometry manager main configuration file
   manager.configuration_file : string as path = \
-      "@HPGE_SIMULATION_DIR@/config/geometry/manager.conf"
+      "@hpge_simulation_dir:config/geometry/manager.conf"
 
   #@description Embedded SuperNEMO geometry manager must build its mapping lookup table
   manager.build_mapping : boolean = 1
@@ -1447,9 +1447,12 @@ library(ies) which holds the needed modules.
 #+BEGIN_SRC sh
   bxdpp_processing                                                     \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
-      --module hpge_simulation_module                                  \
+      --module hpge_analysis_chain                                     \
+      --datatools::resource-path="hpge_simulation_dir@$PWD"            \
       --load-dll hpge_simulation                                       \
-      --load-dll Bayeux_mctools_geant4
+      --load-dll Bayeux_mctools_geant4                                 \
+      --max-records 100                                                \
+      --output-file /tmp/${USER}/hpge.d/io_ouput_hpge_simulation.brio
 #+END_SRC
 
 =Bayeux_mctools_geant4= represents the library which holds the Geant4
@@ -1459,8 +1462,11 @@ writing
 #+BEGIN_SRC sh
   bxdpp_processing                                                     \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
-      --module hpge_simulation_module                                  \
-      --dll-config $PWD/config/pipeline/dlls.conf
+      --module hpge_analysis_chain                                     \
+      --datatools::resource-path="hpge_simulation_dir@$PWD"            \
+      --dlls-config $PWD/config/pipeline/dlls.conf                     \
+      --max-records 100                                                \
+      --output-file /tmp/${USER}/hpge.d/io_ouput_hpge_simulation.brio
 #+END_SRC
 
 It will run the =hpge_simulation_module= and it will generate a ROOT file
@@ -1469,6 +1475,20 @@ containing several histograms. This file is located by default, in
 name. You can change the output directory and output file name in [[Histogram
 service][this section]].
 
+** Data visualization
+
+If you have installed the =Falaise= suite, you can use the =flvisualize= binary to
+visualize the result of the simulation. The next command launches the
+=flvisualize= with the dedicated style file defined in Section [[Visualization
+settings]].
+
+#+BEGIN_SRC sh
+  flvisualize                                                           \
+      --datatools::resource-path="hpge_simulation_dir@$PWD"             \
+      --detector-config-file $PWD/config/geometry/manager.conf          \
+      --style-config-file $PWD/config/visualization/hpge_simulation.sty \
+      --input-file /tmp/${USER}/hpge.d/io_ouput_hpge_simulation.brio
+#+END_SRC
 * Footnotes
 
 [fn:1] We recommend that you name any sensitive category with the =_SD=
