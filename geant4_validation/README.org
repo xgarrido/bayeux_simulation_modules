@@ -80,10 +80,10 @@ The geometry factory holds all the files needed for the geometry construction.
 **** Geometry files
 #+BEGIN_SRC sh
   #@description List of files describing the geometry models
-  factory.geom_files : string[3] as path =                        \
-    "@GEANT4_VALIDATION_DIR@/config/geometry/optical_module.geom" \
-    "@GEANT4_VALIDATION_DIR@/config/geometry/source.geom"         \
-    "@GEANT4_VALIDATION_DIR@/config/geometry/lab_world.geom"
+  factory.geom_files : string[3] as path =                       \
+    "@geant4_validation_dir:config/geometry/optical_module.geom" \
+    "@geant4_validation_dir:config/geometry/source.geom"         \
+    "@geant4_validation_dir:config/geometry/lab_world.geom"
 #+END_SRC
 
 *** ID manager
@@ -118,9 +118,9 @@ volume.
   plugins.force_initialization_at_load : boolean = 0
 
   #@description Configuration files for geometry manager's plugins
-  plugins.configuration_files : string[2] as path =                   \
-      "@GEANT4_VALIDATION_DIR@/config/geometry/materials_plugin.conf" \
-      "@GEANT4_VALIDATION_DIR@/config/geometry/magnetic_field_plugin.conf"
+  plugins.configuration_files : string[2] as path =                  \
+      "@geant4_validation_dir:config/geometry/materials_plugin.conf" \
+      "@geant4_validation_dir:config/geometry/magnetic_field_plugin.conf"
 #+END_SRC
 
 ** Geometry models
@@ -900,7 +900,7 @@ to change the source foil isotope.
       "@materials:data/std_isotopes.def"              \
       "@materials:data/std_elements.def"              \
       "@materials:data/std_materials.def"             \
-      "@GEANT4_VALIDATION_DIR@/config/geometry/materials_aliases.def"
+      "@geant4_validation_dir:config/geometry/materials_aliases.def"
 #+END_SRC
 *** COMMENT Materials
 :PROPERTIES:
@@ -1165,7 +1165,7 @@ generators.
 
   #@description Configuration file for the embedded '::genbb::manager'
   manager.config : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/genbb_manager.conf"
+      "@geant4_validation_dir:config/pipeline/genbb_manager.conf"
 #+END_SRC
 *** Vertex generator
 This part basically provides the location of vertex generator implemented by
@@ -1212,7 +1212,7 @@ SuperNEMO physics.
 
   #@description Configuration file for the step hit processor factory:
   hit_processor_factory.config : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/step_hit_processor_factory.conf"
+      "@geant4_validation_dir:config/pipeline/step_hit_processor_factory.conf"
 #+END_SRC
 
 **** Sensitive detectors
@@ -1321,14 +1321,14 @@ phycical processes for SuperNEMO.
 
   #@description Configuration file of the physics constructors named 'particles'
   physics_constructors.particles.config : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/particles.conf"
+      "@geant4_validation_dir:config/pipeline/particles.conf"
 
   #@description Class ID of the physics constructors named 'em'
   physics_constructors.em.id            : string = "mctools::g4::em_physics_constructor"
 
   #@description Configuration file of the physics constructors named 'em'
   physics_constructors.em.config        : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/em_processes.conf"
+      "@geant4_validation_dir:config/pipeline/em_processes.conf"
 #+END_SRC
 
 ***** Particle physics constructor
@@ -1762,7 +1762,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 
   #@description List of files containing particle generator definition rules
   vg_list : string[1] as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/vgs.conf"
+      "@geant4_validation_dir:config/pipeline/vgs.conf"
 #+END_SRC
 
 *** Generators configuration
@@ -1901,10 +1901,10 @@ responsible for a given task. Modules and services are declared in Section
 simulations and the concept behind modules/services see [[http://nile.hep.utexas.edu/cgi-bin/DocDB/ut-nemo/private/ShowDocument?docid=1889][these mandatory
 presentations]] given by F. Mauger.
 
-The =@GEANT4_VALIDATION_DIR@= corresponds to the directory where configuration
+The =@geant4_validation_dir= corresponds to the directory where configuration
 files are going to be stored. This variable which varies from one installation
-to the other, is automatically change when the tangle process occurs. This is
-done /via/ the =Makefile= which parse and replace this variable.
+to the other, can be set when executing the =bxdpp_processing= (see Section [[Use
+and execute =geant4_validation= module]]).
 
 ** Module manager
 :PROPERTIES:
@@ -1930,16 +1930,16 @@ service files.
 #+BEGIN_SRC sh
   #@description The configuration file of the embedded service manager
   service_manager.configuration : string[1] as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/service_manager.conf"
+      "@geant4_validation_dir:config/pipeline/service_manager.conf"
 #+END_SRC
 
 *** Configuration files for modules
 #+BEGIN_SRC sh
   #@description The configuration files for modules
-  modules.configuration_files : string[3] as path =                           \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_simulation_module.conf" \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_validation_module.conf" \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/geant4_chain_module.conf"
+  modules.configuration_files : string[3] as path =                          \
+      "@geant4_validation_dir:config/pipeline/geant4_simulation_module.conf" \
+      "@geant4_validation_dir:config/pipeline/geant4_validation_module.conf" \
+      "@geant4_validation_dir:config/pipeline/geant4_chain_module.conf"
 #+END_SRC
 
 ** Service manager
@@ -1963,7 +1963,7 @@ service files.
 #+BEGIN_SRC sh
   #@description The list of files that describe services
   services.configuration_files : string[1] as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/services.conf"
+      "@geant4_validation_dir:config/pipeline/services.conf"
 #+END_SRC
 
 ** DLL loader
@@ -2011,7 +2011,7 @@ named =geant4_validation=. The following table sets the libraries
 #+NAME: tab::dll_libraries
 |-----------------------+---------------------------------------------------------------------|
 | Bayeux_mctools_geant4 | $SNAILWARE_PRO_DIR/bayeux/install/lib64/libBayeux_mctools_geant4.so |
-| geant4_validation     | @GEANT4_VALIDATION_DIR@/install/lib/libgeant4_validation.so         |
+| geant4_validation     | @geant4_validation_dir:install/lib/libgeant4_validation.so          |
 |-----------------------+---------------------------------------------------------------------|
 
 #+BEGIN_SRC sh :noweb yes
@@ -2094,7 +2094,7 @@ named =geant4_validation=. The following table sets the libraries
 #+BEGIN_SRC sh
   #@description The simulation manager configuration file
   manager.configuration_filename : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/g4_manager.conf"
+      "@geant4_validation_dir:config/pipeline/g4_manager.conf"
 #+END_SRC
 
 ** Validation module
@@ -2272,7 +2272,7 @@ reconstruction ... but all of them will use the same geometry.
 
   #@description Embedded SuperNEMO geometry manager main configuration file
   manager.configuration_file : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/geometry/manager.conf"
+      "@geant4_validation_dir:config/geometry/manager.conf"
 
   #@description Embedded SuperNEMO geometry manager must build its mapping lookup table
   manager.build_mapping : boolean = 1
@@ -2300,7 +2300,7 @@ histograms can be added to a histogram dictionnary.
 #+BEGIN_SRC sh
   #@description The main configuration file for the embedded histogram manager
   pool.histo.setups : string[1] as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/histogram_templates.conf"
+      "@geant4_validation_dir:config/pipeline/histogram_templates.conf"
 #+END_SRC
 
 Finally, all histograms created can be stored inside ROOT files or XML archives.
@@ -2333,6 +2333,7 @@ and install the =geant4_validation= module by doing
 #+END_SRC
 
 ** Use and execute =geant4_validation= module
+
 You will need to define the path to the =Bayeux_mctools_g4= library as shown in
 Table [[tab::dll_libraries]]. You can either change the path to the library or
 export the environment variable =SNAILWARE_PRO_DIR=.
@@ -2350,12 +2351,16 @@ built in Section [[DLL loader]] by writing
 
 #+BEGIN_SRC sh
   bxdpp_processing                                                     \
-      --dll-config $PWD/config/pipeline/dlls.conf                      \
+      --dlls-config $PWD/config/pipeline/dlls.conf                     \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
+      --datatools::resource-path="geant4_validation_dir@$PWD"          \
       --module geant4_chain_module                                     \
       --max-records 100                                                \
-    --output-file /tmp/${USER}/bayeux.d/io_ouput_geant4_simulation.brio
+      --output-file /tmp/${USER}/bayeux.d/io_ouput_geant4_simulation.brio
 #+END_SRC
+
+The line with =--datatools::resource-path= tells the program where the
+configuration file are stored /i.e./ =$PWD/config= in this case.
 
 It will run the =geant4_simulation_module= followed by the
 =geant4_validation_module= over 100 events and it will generate a ROOT file
