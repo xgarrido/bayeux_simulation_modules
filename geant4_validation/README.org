@@ -636,6 +636,9 @@ We finally define mapping ids
 
   #@description The name of the material
   material.ref      : string  = "copper"
+
+  #@description The 'sensitive' category attached to this detector volume
+  sensitive.category : string  = "absorber_SD"
 #+END_SRC
 **** Black box
 #+BEGIN_SRC sh
@@ -720,6 +723,9 @@ We finally define mapping ids
 
   #@description The mapping directives for the "detector" daughter volume
   mapping.daughter_id.detector : string  = "[optical_module.gc:detector=0]"
+
+  #@description The mapping directives for the "absorber" daughter volume
+  mapping.daughter_id.absorber0 : string  = "[absorber.gc]"
 #+END_SRC
 **** World volume
 #+BEGIN_SRC sh
@@ -868,6 +874,14 @@ We finally define mapping ids
 
   #@description The GID address of a light guide inherits the GID address of the optical module
   inherits : string[1] = "optical_module.gc"
+
+  #######################################
+  [category="absorber.gc" type="2034"]
+
+  #@config The geometry category of the absorber
+
+  #@description The GID address of a light guide inherits the GID address of the optical module
+  inherits : string[1] = "lab.gc"
 #+END_SRC
 ** Materials plugin
 :PROPERTIES:
@@ -896,10 +910,11 @@ to change the source foil isotope.
 *** Files
 #+BEGIN_SRC sh
   #@description List of files describing the materials
-  materials.configuration_files : string[4] as path = \
+  materials.configuration_files : string[5] as path = \
       "@materials:data/std_isotopes.def"              \
       "@materials:data/std_elements.def"              \
       "@materials:data/std_materials.def"             \
+      "@materials:data/std_material_aliases.def"      \
       "@geant4_validation_dir:config/geometry/materials_aliases.def"
 #+END_SRC
 *** COMMENT Materials
@@ -1825,6 +1840,54 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
+*** Absorber hits
+#+BEGIN_SRC sh
+  [name="absorber.hit_processor" type="mctools::calorimeter_step_hit_processor"]
+
+  #@config The step hit processor for the absorber
+
+  #@description Debug flag
+  logging.priority      : string = "warning"
+
+  #@description The name of the category of MC hits output by this processor
+  hit.category          : string = "scin.hit"
+
+  #@description The name of the sensitive MC hits the processor must process to fill the output hit category
+  sensitive.category    : string = "absorber_SD"
+
+  #@description Flag to activate a preallocated buffer/pool of MC hits to optimize memory management
+  use_private_pool      : boolean  = 1
+
+  #@description Initial capacity of the buffer/pool of MC hits
+  private_pool_capacity : integer  = 10
+
+  #@description The time spread of primary MC step hits to apply the clusterization
+  cluster.time_range    : real as time  = 1.0 ns
+
+  #@description The spacial spread of primary MC step hits to apply the clusterization
+  cluster.space_range   : real as length = 10.0 mm
+
+  #@description The name of the geometry category to be attached to the output MC hits
+  mapping.category      : string = "absorber.gc"
+
+  #@description The name of the geometry category to be attached to the output MC hits
+  ##mapping.category.any_addresses :  string[1] = "part"
+#+END_SRC
+#+BEGIN_SRC sh
+  [name="absorber.visu.hit_processor" type="mctools::push_all_step_hit_processor"]
+
+  #@config The step hit processor for collecting all scintillator hits in the scintillator volume for visualization
+
+  #@description Debug flag
+  logging.priority   : string = "warning"
+
+  #@description The name of the target collection of MC hits
+  hit.category       : string  = "__visu.tracks"
+
+  #@description The sensitive category
+  sensitive.category : string  = "absorber_SD"
+
+#+END_SRC
 *** Scintillator/calorimeter hits
 #+BEGIN_SRC sh
   [name="scin.hit_processor" type="mctools::calorimeter_step_hit_processor"]
@@ -2088,7 +2151,7 @@ named =geant4_validation=. The following table sets the libraries
 *** Event generator
 #+BEGIN_SRC sh
   #@description The event generator PRNG label
-  manager.event_generator_name  : string  = "gamma_1MeV_cone"
+  manager.event_generator_name  : string  = "electron_1MeV_cone"
 #+END_SRC
 *** Simulation manager
 #+BEGIN_SRC sh
