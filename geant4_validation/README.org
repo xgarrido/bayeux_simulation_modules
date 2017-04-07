@@ -13,7 +13,7 @@ The current version is hosted at
 [[https://github.com/xgarrido/snemo_simulation_modules/geant4_validation]] under
 =git= version control. You can clone this repository by doing
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   git clone https://github.com/xgarrido/snemo_simulation_modules/geant4_validation geant4_validation
 #+END_SRC
 
@@ -50,11 +50,10 @@ process is asynchronous and thus, does not freeze your emacs (=org-babel-tangle=
 * Geometry setup
 ** Manager configuration
 :PROPERTIES:
-:MKDIRP: yes
-:TANGLE: config/geometry/manager.conf
+:HEADER-ARGS: :tangle config/geometry/manager.conf :mkdirp yes
 :END:
 *** Setup label, description and version
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Setup label
   setup_label : string = "geant4_validation"
 
@@ -65,20 +64,20 @@ process is asynchronous and thus, does not freeze your emacs (=org-babel-tangle=
   setup_version : string = "1.0"
 #+END_SRC
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
 *** Geometry factory
 The geometry factory holds all the files needed for the geometry construction.
 **** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority of the embedded geometry model factory
   factory.logging.priority : string = "warning"
 #+END_SRC
 
 **** Geometry files
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of files describing the geometry models
   factory.geom_files : string[3] as path =                       \
     "@geant4_validation_dir:config/geometry/optical_module.geom" \
@@ -88,7 +87,7 @@ The geometry factory holds all the files needed for the geometry construction.
 
 *** ID manager
 **** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging flag of the embedded ID manager
   id_mgr.logging.priority : string = "warning"
 #+END_SRC
@@ -96,26 +95,26 @@ The geometry factory holds all the files needed for the geometry construction.
 **** Category list
 Categories are used to assign a unique id number (integer) to a geometrical
 volume.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Source file of the geometry categories used by the ID manager
   id_mgr.categories_list : string as path = \
-    "@GEANT4_VALIDATION_DIR@/config/geometry/categories.lis"
+    "@geant4_validation_dir:config/geometry/categories.lis"
 #+END_SRC
 *** Mapping configuration
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Build the embedded default mapping dictionnary
-  build_mapping : boolean = 1
+  build_mapping : boolean = true
 
   #@description Max depth of the mapping
   mapping.max_depth : integer = 100
 #+END_SRC
 *** Plugins configuration
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Plugins factory preload from system registration (default=0)
-  plugins.factory_no_preload : boolean = 0
+  plugins.factory_no_preload : boolean = false
 
   #@description Plugins initialization at load (default=0)
-  plugins.force_initialization_at_load : boolean = 0
+  plugins.force_initialization_at_load : boolean = false
 
   #@description Configuration files for geometry manager's plugins
   plugins.configuration_files : string[2] as path =                  \
@@ -126,17 +125,17 @@ volume.
 ** Geometry models
 *** Optical module
 :PROPERTIES:
-:TANGLE: config/geometry/optical_module.geom
+:HEADER-ARGS: :tangle config/geometry/optical_module.geom
 :END:
 **** Preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of geometry models
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** Wrapping model
 ***** z-position (front) wrapping
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="zpos_wrapping.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the wrapping in front of the scintillator block
@@ -158,7 +157,7 @@ volume.
 #+END_SRC
 ***** x-sides wrapping
 ****** Model
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="x_sides_wrapping.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the wrapping on X sides of the scintillator block
@@ -179,7 +178,7 @@ volume.
   material.ref      : string  = "mylar"
 #+END_SRC
 ****** Positionning
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="xpos_wrapping.model" type="geomtools::rotated_boxed_model"]
 
   #@config The configuration parameters for the rotated wrapping film
@@ -199,7 +198,7 @@ volume.
   #@description The name of the material
   material.ref      : string  = "lab_medium"
 #+END_SRC
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="xneg_wrapping.model" type="geomtools::rotated_boxed_model"]
 
   #@config The configuration parameters for the rotated wrapping film
@@ -222,7 +221,7 @@ volume.
 
 ***** y-sides wrapping
 ****** Model
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="y_sides_wrapping.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the wrapping on Y sides of the scintillator block
@@ -243,7 +242,7 @@ volume.
   material.ref : string = "mylar"
 #+END_SRC
 ****** Positionning
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="ypos_wrapping.model" type="geomtools::rotated_boxed_model"]
 
   #@config The configuration parameters for the rotated wrapping film
@@ -263,7 +262,7 @@ volume.
   #@description The name of the material
   material.ref      : string  = "lab_medium"
 #+END_SRC
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="yneg_wrapping.model" type="geomtools::rotated_boxed_model"]
 
   #@config The configuration parameters for the rotated wrapping film
@@ -286,7 +285,7 @@ volume.
 **** Scintillator model
 ***** Block model
 We first design the shape and the dimensions of the block
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="scintillator_block.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the scintillator block
@@ -305,7 +304,7 @@ We first design the shape and the dimensions of the block
 #+END_SRC
 
 Then we define a material
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The name of the material
   # material.ref      : string = "polystyrene"
   material.ref      : string = "std::NaI"
@@ -313,14 +312,14 @@ Then we define a material
 
 Finally, we attach to it a sensitive category to ease the interface between
 =mctools= and Geant4 digitization[fn:3]
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The 'sensitive' category attached to this detector volume
   sensitive.category : string  = "scin_SD"
 #+END_SRC
 ***** Wrapped block model
 The wrapped model consists of wrapping with mylar the previous "nude" block. We
 then use a =surrounded_bowed_model= to place mylar on each scintillator faces.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="wrapped_scintillator_block.model" type="geomtools::surrounded_boxed_model"]
 
   #@config The configuration parameters for the wrapped scintillatorblock
@@ -367,7 +366,7 @@ then use a =surrounded_bowed_model= to place mylar on each scintillator faces.
 
 Finally, we attach mapping id to the mother volume as well as its daughter
 /i.e./ mylar elements.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The mapping directive for the "scintillator_block" daughter volume
   mapping.daughter_id.scintillator_block : string  = "[scin_block.gc]"
 
@@ -388,7 +387,7 @@ Finally, we attach mapping id to the mother volume as well as its daughter
 #+END_SRC
 **** Light guide model
 ***** Basic light guide
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="light_guide.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the light guide
@@ -418,7 +417,7 @@ Finally, we attach mapping id to the mother volume as well as its daughter
   material.ref : string  = "plexiglass"
 #+END_SRC
 ***** Rotated light guide
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="rotated_light_guide.model" type="geomtools::rotated_boxed_model"]
 
   #@config The configuration parameters for the rotated light guide
@@ -445,7 +444,7 @@ Finally, we attach mapping id to the mother volume as well as its daughter
   material.ref  : string  = "lab_medium"
 #+END_SRC
 **** PMT model
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="pmt.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the photomultiplier tube
@@ -474,7 +473,7 @@ Finally, we attach mapping id to the mother volume as well as its daughter
 **** Optical module
 Given the previous model, we stack them to get a full optical module from PMT \to
 light guide \to scintillator block \to the last layer of mylar
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="optical_module.model" type="geomtools::stacked_model"]
 
   #@config The configuration parameters for the optical module
@@ -514,16 +513,16 @@ light guide \to scintillator block \to the last layer of mylar
 #+END_SRC
 *** Source
 :PROPERTIES:
-:TANGLE: config/geometry/source.geom
+:HEADER-ARGS: :tangle config/geometry/source.geom
 :END:
 **** Preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of geometry models
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** Film model
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="source_film.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the source film
@@ -541,7 +540,7 @@ light guide \to scintillator block \to the last layer of mylar
   material.ref : string = "mylar"
 #+END_SRC
 **** Source support model
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="source_support.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the source support
@@ -565,7 +564,7 @@ light guide \to scintillator block \to the last layer of mylar
 **** Source model
 The source model will used the two previous models by placing them "internally"
 to a larger cylinder. We first declare the holding volume
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="source.model" type="geomtools::simple_shaped_model"]
 
   #@description The name of the 3D shape of the source cylindric envelope
@@ -581,7 +580,7 @@ to a larger cylinder. We first declare the holding volume
   material.ref : string  = "lab_medium"
 #+END_SRC
 and then place inside, the "support" and "film" models
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The list of daughter volumes by label
   internal_item.labels : string[2] = "support" "film"
 
@@ -599,7 +598,7 @@ and then place inside, the "support" and "film" models
 #+END_SRC
 
 We finally define mapping ids
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The mapping directives for the "film" daughter volume
   mapping.daughter_id.film : string  = "[source_film.gc]"
 
@@ -608,16 +607,16 @@ We finally define mapping ids
 #+END_SRC
 *** Laboratory & world volume
 :PROPERTIES:
-:TANGLE: config/geometry/lab_world.geom
+:HEADER-ARGS: :tangle config/geometry/lab_world.geom
 :END:
 **** Preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of geometry models
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** Absorber
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="thin_absorber.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the thin_absorber front of the detector
@@ -641,7 +640,7 @@ We finally define mapping ids
   sensitive.category : string  = "absorber_SD"
 #+END_SRC
 **** Black box
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="black_box.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the light guide
@@ -671,7 +670,7 @@ We finally define mapping ids
   material.ref : string  = "inox"
 #+END_SRC
 **** Lab. model
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="lab.model" type="geomtools::simple_shaped_model"]
 
   #@config The configuration parameters for the laboratory experimental area
@@ -692,13 +691,13 @@ We finally define mapping ids
   material.ref : string = "lab_medium"
 
   #@description The list of daughter volumes by labels
-  internal_item.labels : string[4] = "source" "detector" "box" "absorber0"
+  internal_item.labels : string[3] = "source" "detector" "box" "absorber0"
 
   #@description The model of the "source" daughter volume
   internal_item.model.source        : string  = "source.model"
 
   #@description The placement of the "source" daughter volume
-  internal_item.placement.source    : string  = "20 0 0 (cm) / y +90 (degree)"
+  internal_item.placement.source    : string  = "0 0 0 (cm) / y +90 (degree)"
 
   #@description The model of the "detector" daughter volume
   internal_item.model.detector      : string  = "optical_module.model"
@@ -728,7 +727,7 @@ We finally define mapping ids
   mapping.daughter_id.absorber0 : string  = "[absorber.gc]"
 #+END_SRC
 **** World volume
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="world" type="geomtools::simple_world_model"]
 
   #@config configuration parameters for the world logical volume
@@ -768,9 +767,9 @@ We finally define mapping ids
 #+END_SRC
 ** Mapping categories
 :PROPERTIES:
-:TANGLE: config/geometry/categories.lis
+:HEADER-ARGS: :tangle config/geometry/categories.lis
 :END:
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A list of geometry ID categories/types
   #@key_label   "category"
   #@meta_label  "type"
@@ -885,14 +884,14 @@ We finally define mapping ids
 #+END_SRC
 ** Materials plugin
 :PROPERTIES:
-:TANGLE: config/geometry/materials_plugin.conf
+:HEADER-ARGS: :tangle config/geometry/materials_plugin.conf
 :END:
 
 We use the definitions of isotopes, elements and materials from the installed
 materials library. Here the =materials_aliases= definition are locally defined
 to change the source foil isotope.
 *** Plugin declaration
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The geometry manager plugin for materials
 
   #@key_label  "name"
@@ -902,13 +901,13 @@ to change the source foil isotope.
 #+END_SRC
 
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
 
 *** Files
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of files describing the materials
   materials.configuration_files : string[5] as path = \
       "@materials:data/std_isotopes.def"              \
@@ -919,16 +918,16 @@ to change the source foil isotope.
 #+END_SRC
 *** COMMENT Materials
 :PROPERTIES:
-:TANGLE: config/geometry/materials.def
+:HEADER-ARGS: :tangle config/geometry/materials.def
 :END:
 **** Insert preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of radioactive materials
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** Bismuth 207
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
     [name="Bi-207" type="isotope"]
     #@config The 207 Bismuth isotope
     z : integer = 83
@@ -952,9 +951,9 @@ to change the source foil isotope.
 
 *** Material aliases
 :PROPERTIES:
-:TANGLE: config/geometry/materials_aliases.def
+:HEADER-ARGS: :tangle config/geometry/materials_aliases.def
 :END:
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
     #@description A sample list of aliases for standard materials
     #@key_label   "name"
     #@meta_label  "type"
@@ -1003,10 +1002,10 @@ to change the source foil isotope.
 
 ** Magnetic field plugin
 :PROPERTIES:
-:TANGLE: config/geometry/magnetic_field_plugin.conf
+:HEADER-ARGS: :tangle config/geometry/magnetic_field_plugin.conf
 :END:
 *** Plugin declaration
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The geometry manager plugin for emfield
 
   #@key_label  "name"
@@ -1016,13 +1015,13 @@ to change the source foil isotope.
 #+END_SRC
 
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
 
 *** EM field manager configuration
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Manager logging priority
   manager.logging.priority : string = "warning"
 
@@ -1031,16 +1030,16 @@ to change the source foil isotope.
 
   #@description List of EM fields definitions files
   manager.field_definitions_filenames : string[1] as path = \
-      "@GEANT4_VALIDATION_DIR@/config/geometry/magnetic_field_drivers.conf"
+      "@geant4_validation_dir:config/geometry/magnetic_field_drivers.conf"
 #+END_SRC
 
 EM field defined within =manager.field_definitions_filenames= file can be set
 independently and at the same time for different G4 volumes. This association
 between volumes and field is done by the =geom_map= object of =emfield=
 component.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Flag to activate the geometry volume/field associations map
-  manager.build_geom_map : boolean = 1
+  manager.build_geom_map : boolean = true
 
   #@description Manager logging priority
   manager.geom_map.logging.priority : string = "warning"
@@ -1057,16 +1056,16 @@ component.
 
 *** Magnetic fields
 :PROPERTIES:
-:TANGLE: config/geometry/magnetic_field_drivers.conf
+:HEADER-ARGS: :tangle config/geometry/magnetic_field_drivers.conf
 :END:
 **** Preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Definition parameters for some electro-magnetic fields
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** Constant magnetic field
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="B0" type="emfield::uniform_magnetic_field"]
 
   #@config Configuration parameters for the magnetic field generated by a coil
@@ -1080,11 +1079,10 @@ component.
 
 ** Visualization settings
 :PROPERTIES:
-:MKDIRP: yes
-:TANGLE: config/visualization/geant4_validation.sty
+:HEADER-ARGS: :mkdirp yes :tangle config/visualization/geant4_validation.sty
 :END:
 *** Browser settings
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="browser_settings"]
 
   #@description Setup label.
@@ -1101,7 +1099,7 @@ component.
   background_color : integer[3] =   0   0   0
 #+END_SRC
 *** Geometry settings
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="geometry_settings"]
 
   #@description List of volumes to take care.
@@ -1117,7 +1115,7 @@ component.
                                      "pmt.gc"
 
   #@description Volume visibility (visible/invisible/disable)
-  lab.gc.visibility                 : string = "invisible"
+  lab.gc.visibility                 : string = "visible"
   light_guide.gc.visibility         : string = "visible"
   optical_module.gc.visibility      : string = "invisible"
   scin_block.gc.visibility          : string = "visible"
@@ -1139,15 +1137,16 @@ component.
   pmt.gc.color                 : integer[3] = 228 123 220
 #+END_SRC
 *** Particle settings
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="particle_settings"]
 
   #@description MC particle color
   gamma.color    : string = "#FFD700"
   electron.color : string = "#87CEEB"
+  positron.color : string = "#2ECC40"
 #+END_SRC
 *** Misc.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="miscellaneous"]
 
   #@description MC line style
@@ -1163,10 +1162,10 @@ component.
 * Simulation setup
 ** Geant4 configuration
 :PROPERTIES:
-:TANGLE: config/pipeline/g4_manager.conf
+:HEADER-ARGS: :tangle config/pipeline/g4_manager.conf
 :END:
 *** Manager setup
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="manager"]
 
   #@description Logging priority
@@ -1175,7 +1174,7 @@ component.
 *** Event generator
 The following code holds the =genbb= manager to give access to several primary
 generators.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="event_generator"]
 
   #@description Configuration file for the embedded '::genbb::manager'
@@ -1185,19 +1184,19 @@ generators.
 *** Vertex generator
 This part basically provides the location of vertex generator implemented by
 [[https://nemo.lpc-caen.in2p3.fr/wiki/genvtx][genvtx]].
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="vertex_generator"]
 
   #@description Main configuration file for the vertex generator manager
   manager.config : string as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/genvertex_manager.conf"
+      "@geant4_validation_dir:config/pipeline/genvertex_manager.conf"
 #+END_SRC
 *** Detector construction
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="detector_construction"]
 #+END_SRC
 **** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
@@ -1207,7 +1206,7 @@ The Geometry Description Markup Language is an application-indepedent geometry
 description format based on XML[fn:4]. It is used as Geant4 toolkit bindings
 through =gemotools= converters.
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Temporary directory for GDML file generation:
   gdml.tmp_dir         : string as path = "/tmp/${USER}/geant4_validation_g4.d"
 
@@ -1215,13 +1214,13 @@ through =gemotools= converters.
   gdml.schema_location : string = "local" # "remote"
 
   #@description Flag to skip GDML validation
-  gdml.no_validation   : boolean = 0
+  gdml.no_validation   : boolean = false
 #+END_SRC
 
 **** Step hit processors
 Step hit processors are used to convert Geant4 steps into detector hits for
 SuperNEMO physics.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging support for step hit processor factory
   hit_processor_factory.logging.priority : string = "warning"
 
@@ -1233,7 +1232,7 @@ SuperNEMO physics.
 **** Sensitive detectors
 This category defines sensitive detectors where special treatments of Geant4 steps
 must be applied. This can be in direct relation with step hit processors defined above.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Parameters for the generation of 'sensitive hits' through 'sensitive detectors' :
   sensitive.detectors : string[1] = "scin_SD"
 
@@ -1244,24 +1243,24 @@ must be applied. This can be in direct relation with step hit processors defined
   sensitive.scin_SD.hits_buffer_capacity            : integer = 200
 
   #@description Flag to activate the recording of alpha particle quenching
-  sensitive.scin_SD.record_alpha_quenching          : boolean = 1
+  sensitive.scin_SD.record_alpha_quenching          : boolean = true
 
   #@description Flag to activate the recording of any track ID
-  sensitive.scin_SD.record_track_id                 : boolean = 1
+  sensitive.scin_SD.record_track_id                 : boolean = true
 
   #@description Flag to activate the recording of any primary particle flag
-  sensitive.scin_SD.record_primary_particle         : boolean = 1
+  sensitive.scin_SD.record_primary_particle         : boolean = true
 
   #@description Flag to drop hits with zero energy deposit
-  sensitive.scin_SD.drop_zero_energy_deposit_steps  : boolean = 0
+  sensitive.scin_SD.drop_zero_energy_deposit_steps  : boolean = false
 
   #@description Flag to track gamma particles
-  sensitive.scin_SD.track_gamma                     : boolean = 1
+  sensitive.scin_SD.track_gamma                     : boolean = true
 #+END_SRC
 
 **** Geant4 step hit limits
 The following code defines geometry models where Geant4 steps are size limited.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of geometry logical volumes with max steps:
   limits.list_of_volumes : string[3] = \
                          "source_film.model.log" \
@@ -1279,7 +1278,7 @@ The following code defines geometry models where Geant4 steps are size limited.
 #+END_SRC
 **** Geant4 regions
 Definition of Geant4 regions.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of regions
   regions : string[3] = "scintillator" "lab" "source"
 
@@ -1294,9 +1293,9 @@ Definition of Geant4 regions.
 #+END_SRC
 
 **** Magnetic field
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Flag to use magnetic field
-  using_magnetic_field              : boolean = 0
+  using_magnetic_field              : boolean = false
 
   #@description Logging priority threshold of the embedded Geant4 magnetic fields
   magnetic_field.logging.priority   : string = "warning"
@@ -1316,18 +1315,18 @@ In the development of a Geant4-based application, it is the user's
 responsibility to decide which physics processes are required, and then to
 include them in the physics list. The next lines are just aliases to relevant
 phycical processes for SuperNEMO.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="physics_list"]
 #+END_SRC
 
 **** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
 
 **** Plugins
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description List of physics constructors
   physics_constructors.names : string[2] = "particles" "em"
 
@@ -1348,144 +1347,144 @@ phycical processes for SuperNEMO.
 
 ***** Particle physics constructor
 :PROPERTIES:
-:TANGLE:   config/pipeline/particles.conf
+:HEADER-ARGS: :tangle   config/pipeline/particles.conf
 :END:
 Quite experimental try to set particles used within this "framework".
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@config Configuration parameters for the particles Geant4 physics constructor
 
   #@description The activation flag for geantinos (neutral and charged, default: 0)
-  #use_geantinos               : boolean = 0
+  #use_geantinos               : boolean = false
 
   #@description The activation flag for optical photons (default: 0)
-  #use_optical_photons         : boolean = 0
+  #use_optical_photons         : boolean = false
 
   #@description The activation flag for muon leptons (default: 0)
-  #use_muon_leptons         : boolean = 0
+  #use_muon_leptons         : boolean = false
 
   #@description The activation flag for tau leptons (default: 0)
-  #use_tau_leptons          : boolean = 0
+  #use_tau_leptons          : boolean = false
 
   #@description The activation flag for light mesons (default: 0)
-  #use_light_mesons         : boolean = 0
+  #use_light_mesons         : boolean = false
 
   #@description The activation flag for charm mesons (default: 0)
-  #use_charm_mesons         : boolean = 0
+  #use_charm_mesons         : boolean = false
 
   #@description The activation flag for bottom mesons (default: 0)
-  #use_bottom_mesons        : boolean = 0
+  #use_bottom_mesons        : boolean = false
 
   #@description The activation flag for nucleons (default: 1)
-  use_nucleons             : boolean = 1
+  use_nucleons             : boolean = true
 
   #@description The activation flag for strange baryons (default: 0)
-  #use_strange_baryons      : boolean = 0
+  #use_strange_baryons      : boolean = false
 
   #@description The activation flag for charm baryons (default: 0)
-  #use_charm_baryons        : boolean = 0
+  #use_charm_baryons        : boolean = false
 
   #@description The activation flag for bottom baryons (default: 0)
-  #use_bottom_baryons       : boolean = 0
+  #use_bottom_baryons       : boolean = false
 
   #@description The activation flag for light nuclei (default: 1)
-  use_light_nuclei         : boolean = 1
+  use_light_nuclei         : boolean = true
 
   #@description The activation flag for light anti-nuclei (default: 0)
-  #use_light_anti_nuclei    : boolean = 0
+  #use_light_anti_nuclei    : boolean = false
 
   #@description The activation flag for generic ion (default: 0)
-  use_generic_ion          : boolean = 1
+  use_generic_ion          : boolean = true
 #+END_SRC
 
 ***** EM physics process
 :PROPERTIES:
-:TANGLE:   config/pipeline/em_processes.conf
+:HEADER-ARGS: :tangle   config/pipeline/em_processes.conf
 :END:
 ****** General settings
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@config Configuration parameters for the electro-magnetic Geant4 physics constructor
 
   #@description Electro-magntox interaction model (value in: "standard", "low_energy", "penelope")
   em.model : string = "standard"
 #+END_SRC
 ****** Electrons/positrons
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The activation flag for electron/positron ionisation (energy loss/delta ray production)
-  em.electron.ionisation           : boolean = 1
+  em.electron.ionisation           : boolean = true
 
   #@description The activation flag for electron/positron multiple scatterring process
-  em.electron.multiple_scatterring : boolean = 1
+  em.electron.multiple_scatterring : boolean = true
 
   #@description The activation flag for electron/positron multiple scatterring process
-  em.electron.multiple_scatterring.use_distance_to_boundary: boolean = 1
+  em.electron.multiple_scatterring.use_distance_to_boundary: boolean = true
 
   #@description The range factor for electron/positron multiple scatterring process
   em.electron.multiple_scatterring.range_factor: real = 0.005
 
   #@description The activation flag for electron/positron bremsstrahlung process
-  em.electron.bremsstrahlung       : boolean = 1
+  em.electron.bremsstrahlung       : boolean = true
 
   #@description The activation flag for electron/positron step limiter process
-  em.electron.step_limiter         : boolean = 1
+  em.electron.step_limiter         : boolean = true
 
   #@description The activation flag for positron pannihilation
-  em.positron.annihilation         : boolean = 1
+  em.positron.annihilation         : boolean = true
 #+END_SRC
 ****** Gammas
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The activation flag for Rayleigh scattering
-  em.gamma.rayleigh_scattering  : boolean = 0
+  em.gamma.rayleigh_scattering  : boolean = false
 
   #@description The activation flag for photoelectric effect
-  em.gamma.photo_electric       : boolean = 1
+  em.gamma.photo_electric       : boolean = true
 
   #@description The activation flag for Compton scattering
-  em.gamma.compton_scattering   : boolean = 1
+  em.gamma.compton_scattering   : boolean = true
 
   #@description The activation flag for gamma conversion
-  em.gamma.conversion           : boolean = 1
+  em.gamma.conversion           : boolean = true
 
   #@description The activation flag for gamma conversion to muons
-  em.gamma.conversion_to_muons  : boolean = 0
+  em.gamma.conversion_to_muons  : boolean = false
 #+END_SRC
 ****** Muons
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The activation flag for muon ionisation
-  em.muon.ionisation           : boolean = 0
+  em.muon.ionisation           : boolean = false
 
   #@description The activation flag for muon multiple scatterring process
-  em.muon.multiple_scatterring : boolean = 0
+  em.muon.multiple_scatterring : boolean = false
 
   #@description The activation flag for muon pair production
-  em.muon.pair_production      : boolean = 0
+  em.muon.pair_production      : boolean = false
 
   #@description The activation flag for muon bremsstrahlung process
-  em.muon.bremsstrahlung       : boolean = 0
+  em.muon.bremsstrahlung       : boolean = false
 
   #@description The activation flag for muon step limiter process
-  em.muon.step_limiter         : boolean = 0
+  em.muon.step_limiter         : boolean = false
 #+END_SRC
 ****** Ions
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The activation flag for ion ionisation
-  em.ion.ionisation           : boolean = 1
+  em.ion.ionisation           : boolean = true
 
   #@description The activation flag for ion multiple scatterring process
-  em.ion.multiple_scatterring : boolean = 1
+  em.ion.multiple_scatterring : boolean = true
 
   #@description The activation flag for ion step limiter process
-  em.ion.step_limiter         : boolean = 1
+  em.ion.step_limiter         : boolean = true
 #+END_SRC
 ****** Deexcitation
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The activation flag for deexcitation fluorescence process
-  #em.deexcitation.fluo         : boolean = 0
+  #em.deexcitation.fluo         : boolean = false
 
   #@description The activation flag for Auger process
-  #em.deexcitation.auger        : boolean = 0
+  #em.deexcitation.auger        : boolean = false
 
   #@description The activation flag for PIXE
-  #em.deexcitation.pixe         : boolean = 0
+  #em.deexcitation.pixe         : boolean = false
 
   #@description The activation model for PIXE cross-sections
   #em.deexcitation.pixe.model   : string = "Empirical"
@@ -1494,30 +1493,30 @@ Quite experimental try to set particles used within this "framework".
   #em.deexcitation.regions : string[2] = "A" "B"
 
   #@description The activation flag for deexcitation fluorescence process in region "A"
-  #em.deexcitation.regions.A.fluo  : boolean = 1
+  #em.deexcitation.regions.A.fluo  : boolean = true
 
   #@description The activation flag for Auger process in region "A"
-  #em.deexcitation.regions.A.auger : boolean = 1
+  #em.deexcitation.regions.A.auger : boolean = true
 
   #@description The activation flag for PIXE in region "A"
-  #em.deexcitation.regions.A.pixe  : boolean = 1
+  #em.deexcitation.regions.A.pixe  : boolean = true
 
   #@description The activation flag for deexcitation fluorescence process in region "B"
-  #em.deexcitation.regions.B.fluo  : boolean = 1
+  #em.deexcitation.regions.B.fluo  : boolean = true
 
   #@description The activation flag for Auger process in region "B"
-  #em.deexcitation.regions.B.auger : boolean = 1
+  #em.deexcitation.regions.B.auger : boolean = true
 
   #@description The activation flag for PIXE in region "B"
-  #em.deexcitation.regions.B.pixe  : boolean = 1
+  #em.deexcitation.regions.B.pixe  : boolean = true
 #+END_SRC
 
 **** Using Geant4 region cuts
 These cuts are related to some production processes and then, define some
 minimal step hit size given the detector region.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Activate the use of specific cuts
-  using_production_cuts : boolean = 1
+  using_production_cuts : boolean = true
 
   #@description The energy low edge for cuts
   production_cuts.low_energy    : real as energy  = 1 keV
@@ -1567,7 +1566,7 @@ The last part of the configuration concerned Geant4 actions but do not hold a
 lot of options.
 
 **** Run action
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="run_action"]
 
   #@description Logging priority :
@@ -1577,11 +1576,11 @@ lot of options.
   #number_events_modulo : integer = 100
 
   #@description If set, this flag forbids the generation of output files :
-  file.no_save : boolean = 1
+  file.no_save : boolean = true
 #+END_SRC
 
 **** Event action
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="event_action"]
 
   #@description Logging priority :
@@ -1589,7 +1588,7 @@ lot of options.
 #+END_SRC
 
 **** Primary generator action
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="primary_generator_action"]
 
   #@config Configuration of the primary generator action
@@ -1598,7 +1597,7 @@ lot of options.
   logging.priority : string = "warning"
 #+END_SRC
 **** Tracking action
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="tracking_action"]
 
   #@description Logging priority :
@@ -1606,7 +1605,7 @@ lot of options.
 #+END_SRC
 
 **** Stepping action
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="stepping_action"]
 
   #@description Logging priority :
@@ -1614,14 +1613,14 @@ lot of options.
 #+END_SRC
 
 **** Stacking action
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="stacking_action"]
 
   #@description Logging priority :
   logging.priority : string = "warning"
 
   #@description Kill secondary particles within some volumes :
-  # kill_particles : boolean = 0
+  # kill_particles : boolean = false
 
   #@description Kill secondary particles within some volumes :
   #kill_particles.volumes : string[1] = "drift_cell_core"
@@ -1632,13 +1631,13 @@ lot of options.
 
 ** Genbb configuration
 :PROPERTIES:
-:TANGLE: config/pipeline/genbb_manager.conf
+:HEADER-ARGS: :tangle config/pipeline/genbb_manager.conf
 :END:
 The =genbb= package is dedicated to the generation of double beta decay and/or
 radioactive background primary events as input for a simulation program.
 
 More details concerning the use of =genbb= can be found in [[https://nemo.lpc-caen.in2p3.fr/wiki/genbb_help][LPC wiki]].
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@config Main configuration parameters for the genbb manager
 
   #@description Logging priority
@@ -1646,21 +1645,21 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 
   #@description List of files containing particle generator definition rules
   generators.configuration_files : string[2] as path = \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/calibrations.conf" \
-      "@GEANT4_VALIDATION_DIR@/config/pipeline/guns.conf"
+      "@geant4_validation_dir:config/pipeline/calibrations.conf" \
+      "@geant4_validation_dir:config/pipeline/guns.conf"
 #+END_SRC
 *** Calibration configuration
 :PROPERTIES:
-:TANGLE:   config/pipeline/calibrations.conf
+:HEADER-ARGS: :tangle   config/pipeline/calibrations.conf
 :END:
 **** Insert preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** Bi207
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="Bi207" type="genbb::wdecay0"]
   #@config Bi-207 decay
   logging.priority : string = "warning"
@@ -1668,25 +1667,41 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   decay_isotope    : string = "Bi207+Pb207m"
 #+END_SRC
 **** Co60
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="Co60" type="genbb::wdecay0"]
   #@config Co-60 decay
   logging.priority : string = "warning"
   decay_type       : string = "background"
   decay_isotope    : string = "Co60"
 #+END_SRC
+**** Na22
+#+BEGIN_SRC shell
+  [name="Na22" type="genbb::wdecay0"]
+  #@config Na-22 decay
+  logging.priority : string = "warning"
+  decay_type       : string = "background"
+  decay_isotope    : string = "Na22"
+#+END_SRC
+**** Am241
+#+BEGIN_SRC shell
+  [name="Am241" type="genbb::wdecay0"]
+  #@config Na-22 decay
+  logging.priority : string = "warning"
+  decay_type       : string = "background"
+  decay_isotope    : string = "Am241"
+#+END_SRC
 *** Guns configuration
 :PROPERTIES:
-:TANGLE: config/pipeline/guns.conf
+:HEADER-ARGS: :tangle config/pipeline/guns.conf
 :END:
 **** Insert preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** 1 MeV electron
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="electron_1MeV" type="genbb::single_particle_generator"]
   #@config Electron with monokinetic energy @ 1 MeV [miscellaneous]
 
@@ -1706,7 +1721,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   energy        : real as energy  = 1000 keV
 #+END_SRC
 **** 1 MeV cone electron
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="electron_1MeV_cone" type="genbb::single_particle_generator"]
   #@config Electron with monokinetic energy @ 1 MeV [miscellaneous]
 
@@ -1736,7 +1751,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 #+END_SRC
 
 **** 1 MeV cone gamma
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="gamma_1MeV_cone" type="genbb::single_particle_generator"]
   #@config Gamma with monokinetic energy @ 1 MeV [miscellaneous]
 
@@ -1767,9 +1782,9 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 
 ** Vertex configuration
 :PROPERTIES:
-:TANGLE: config/pipeline/genvertex_manager.conf
+:HEADER-ARGS: :tangle config/pipeline/genvertex_manager.conf
 :END:
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@config Main configuration parameters for the genvertex manager
 
   #@description Logging priority
@@ -1782,22 +1797,22 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 
 *** Generators configuration
 :PROPERTIES:
-:TANGLE: config/pipeline/vgs.conf
+:HEADER-ARGS: :tangle config/pipeline/vgs.conf
 :END:
 **** Insert preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 **** From the source bulk
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="source_bulk.vg" type="genvtx::cylinder_model_vg"]
 
   #@config Vertex generation from the source bulk
 
   #@description Debug flag
-  debug  : boolean = 0
+  debug  : boolean = false
 
   #@description The rule that describes the geometry origin of vertex in term of geometry category and addresses (geom ID)
   origin : string  = "category='source_film.gc' position={*}"
@@ -1806,13 +1821,13 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   mode   : string  = "bulk"
 #+END_SRC
 **** From the source surface
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="source_surface.vg" type="genvtx::cylinder_model_vg"]
 
   #@config Vertex generation from the source surface
 
   #@description Debug flag
-  debug  : boolean = 0
+  debug  : boolean = false
 
   #@description The rule that describes the geometry origin of vertex in term of geometry category and addresses (geom ID)
   origin : string  = "category='source_film.gc' position={*}"
@@ -1821,27 +1836,27 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   mode   : string  = "surface"
 
   #@description Surface mode cylinder inner face activation
-  mode.surface.side   : boolean = 0
+  mode.surface.side   : boolean = false
 
   #@description Surface mode cylinder top face activation
-  mode.surface.top    : boolean = 1
+  mode.surface.top    : boolean = true
 
   #@description Surface mode cylinder bottom face activation
-  mode.surface.bottom : boolean = 1
+  mode.surface.bottom : boolean = true
 #+END_SRC
 
 ** Step hit processor configuration
 :PROPERTIES:
-:TANGLE: config/pipeline/step_hit_processor_factory.conf
+:HEADER-ARGS: :tangle config/pipeline/step_hit_processor_factory.conf
 :END:
 *** Insert preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A list of simulated step hit processors
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 *** Absorber hits
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="absorber.hit_processor" type="mctools::calorimeter_step_hit_processor"]
 
   #@config The step hit processor for the absorber
@@ -1873,7 +1888,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   #@description The name of the geometry category to be attached to the output MC hits
   ##mapping.category.any_addresses :  string[1] = "part"
 #+END_SRC
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="absorber.visu.hit_processor" type="mctools::push_all_step_hit_processor"]
 
   #@config The step hit processor for collecting all scintillator hits in the scintillator volume for visualization
@@ -1889,7 +1904,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 
 #+END_SRC
 *** Scintillator/calorimeter hits
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="scin.hit_processor" type="mctools::calorimeter_step_hit_processor"]
 
   #@config The step hit processor for the scintillator blocks
@@ -1921,7 +1936,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   #@description The name of the geometry category to be attached to the output MC hits
   ##mapping.category.any_addresses :  string[1] = "part"
 #+END_SRC
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="scin.visu.hit_processor" type="mctools::push_all_step_hit_processor"]
 
   #@config The step hit processor for collecting all scintillator hits in the scintillator volume for visualization
@@ -1937,7 +1952,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
 
 #+END_SRC
 *** Enabling all volumes
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="all.volumes.visu.hit_processor" type="mctools::push_all_step_hit_processor"]
 
   #@config The step hit processor for collecting all the visu hits
@@ -1952,7 +1967,7 @@ More details concerning the use of =genbb= can be found in [[https://nemo.lpc-ca
   sensitive.category   : string  = "__all.volumes.SD"
 
   #@description Activating all volumes
-  geometry.volumes.all : boolean = 1
+  geometry.volumes.all : boolean = true
 #+END_SRC
 
 * Pipeline general configuration
@@ -1971,33 +1986,32 @@ and execute =geant4_validation= module]]).
 
 ** Module manager
 :PROPERTIES:
-:MKDIRP: yes
-:TANGLE: config/pipeline/module_manager.conf
+:HEADER-ARGS: :mkdirp yes :tangle config/pipeline/module_manager.conf
 :END:
 This file is the main and central piece of code for loading all modules/services
 needed by =dpp_processing= binary. It provides links to module files and
 service files.
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Module manager logging priority
   logging.priority : string = "warning"
 
   #@description Embedded module factory debug flag
-  factory.debug : boolean = 0
+  factory.debug : boolean = false
 
   #@description Embedded module factory 'no preload' flag
-  factory.no_preload : boolean = 0
+  factory.no_preload : boolean = false
 #+END_SRC
 
 *** Service manager configuration
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The configuration file of the embedded service manager
   service_manager.configuration : string[1] as path = \
       "@geant4_validation_dir:config/pipeline/service_manager.conf"
 #+END_SRC
 
 *** Configuration files for modules
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The configuration files for modules
   modules.configuration_files : string[3] as path =                          \
       "@geant4_validation_dir:config/pipeline/geant4_simulation_module.conf" \
@@ -2007,15 +2021,15 @@ service files.
 
 ** Service manager
 :PROPERTIES:
-:TANGLE: config/pipeline/service_manager.conf
+:HEADER-ARGS: :tangle config/pipeline/service_manager.conf
 :END:
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Service manager logging priority
   logging.priority : string = "warning"
 #+END_SRC
 *** Name & description
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The name of the service manager
   name : string = "sn_service_manager"
 
@@ -2023,7 +2037,7 @@ service files.
   description : string = "A SuperNEMO service manager"
 #+END_SRC
 *** List of service files
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The list of files that describe services
   services.configuration_files : string[1] as path = \
       "@geant4_validation_dir:config/pipeline/services.conf"
@@ -2032,15 +2046,14 @@ service files.
 ** DLL loader
 *** Code generator                                               :noexport:
 :PROPERTIES:
-:TANGLE: no
-:RESULTS: output
+:HEADER-ARGS: :tangle no :results output
 :END:
 This skeleton code ease the declaration of dll loader since it
 receives a table list and builds the corresponding =dlls.conf= file.
 
 #+NAME: dll_loader
 #+HEADERS: :var name="" :var filename="" :shebang "#!/bin/bash"
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   echo '#@description A sample list of setups'
   echo '#@key_label   "name"'
   echo '#@meta_label  "filename"'
@@ -2056,28 +2069,27 @@ receives a table list and builds the corresponding =dlls.conf= file.
           echo '[name="'$dll'" filename=""]'
       fi
       echo '#config The '$dll' library'
-      echo 'autoload : boolean = 1'
+      echo 'autoload : boolean = true'
       echo
   done
 #+END_SRC
 *** Libraries
 :PROPERTIES:
-:TANGLE: config/pipeline/dlls.conf
-:RESULTS: none
+:HEADER-ARGS: :tangle config/pipeline/dlls.conf :results none
 :END:
 This part set the different libraries to be loaded at runtime. This is needed
 since event data models are defined in other libraries than the one currently
 named =geant4_validation=. The following table sets the libraries
 
 #+CAPTION: Libraries to be used by =geant4_validation= modules
-#+TBLNAME: dll_libraries
 #+NAME: tab::dll_libraries
+#+TBLNAME: dll_libraries
 |-----------------------+---------------------------------------------------------------------|
 | Bayeux_mctools_geant4 | $SNAILWARE_PRO_DIR/bayeux/install/lib64/libBayeux_mctools_geant4.so |
 | geant4_validation     | @geant4_validation_dir:install/lib/libgeant4_validation.so          |
 |-----------------------+---------------------------------------------------------------------|
 
-#+BEGIN_SRC sh :noweb yes
+#+BEGIN_SRC shell :noweb yes
   <<dll_loader(dll_libraries[*,0], dll_libraries[*,1])>>
 #+END_SRC
 * Modules configuration
@@ -2086,31 +2098,31 @@ named =geant4_validation=. The following table sets the libraries
 :END:
 ** Simulation module
 :PROPERTIES:
-:TANGLE: config/pipeline/geant4_simulation_module.conf
+:HEADER-ARGS: :tangle config/pipeline/geant4_simulation_module.conf
 :END:
 
 *** Module preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 
 *** Declaration & description
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="geant4_simulation_module" type="mctools::g4::simulation_module"]
 
   #@description A threaded Geant4 simulation module
 #+END_SRC
 
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
 
 *** Bank & service labels
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The Geometry Service label
   Geo_label : string = "Geo"
 
@@ -2118,10 +2130,10 @@ named =geant4_validation=. The following table sets the libraries
   SD_label  : string = "SD"
 
   #@description Flag to allow cleaning of some former simulated data bank if any (default: 0)
-  erase_former_SD_bank : boolean = 0
+  erase_former_SD_bank : boolean = false
 #+END_SRC
 *** Seed values
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The simulation manager PRNG seed
   manager.seed                  : integer = 1
 
@@ -2144,17 +2156,17 @@ named =geant4_validation=. The following table sets the libraries
   manager.prng_states_save_modulo : integer = 10
 #+END_SRC
 *** Vertex generator
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The vertex generator PRNG label
   manager.vertex_generator_name : string  = "source_bulk.vg"
 #+END_SRC
 *** Event generator
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The event generator PRNG label
-  manager.event_generator_name  : string  = "electron_1MeV_cone"
+  manager.event_generator_name  : string  = "Am241"
 #+END_SRC
 *** Simulation manager
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The simulation manager configuration file
   manager.configuration_filename : string as path = \
       "@geant4_validation_dir:config/pipeline/g4_manager.conf"
@@ -2162,7 +2174,7 @@ named =geant4_validation=. The following table sets the libraries
 
 ** Validation module
 :PROPERTIES:
-:TANGLE:   config/pipeline/geant4_validation_module.conf
+:HEADER-ARGS: :tangle   config/pipeline/geant4_validation_module.conf
 :END:
 
 The next item holds the configuration for validating Geant4 setup. The second
@@ -2171,34 +2183,34 @@ item is related to histogram declarations.
 Here, we just set up the module declaration.
 
 *** Module preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 *** Declaration & description
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="geant4_validation_module" type="analysis::geant4_validation_module"]
 
   #@description A module to study and to validate Geant4 setup
 #+END_SRC
 
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "notice"
 #+END_SRC
 
 *** Histogram service label
 Set the same histogram service label as defined [[Histogram service][here]]
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The Histogram Service label
   Histo_label : string = "Histo"
 #+END_SRC
 
 **** Histogram declarations
 :PROPERTIES:
-:TANGLE: config/pipeline/histogram_templates.conf
+:HEADER-ARGS: :tangle config/pipeline/histogram_templates.conf
 :END:
 
 The histogram declarations /i.e./ name, boundaries, binning... are set in this
@@ -2207,14 +2219,14 @@ histograms:
 - /template/ histogram which may be used by several data bank.
 
 ***** Mandatory preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 
 ***** Energy template
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="energy_template" type="mygsl::histogram_1d"]
   #@description The title of the histogram (optional)
   title : string = ""
@@ -2226,7 +2238,7 @@ histograms:
   mode : string = "regular"
 
   #@description The linear mode (default)
-  linear : boolean = 1
+  linear : boolean = true
 
   #@description The X axis label
   display.xaxis.label : string = "\Upsigma_\text{\tiny 1,2}$E$_\text{calibrated}"
@@ -2252,32 +2264,32 @@ histograms:
 
 ** Chain module
 :PROPERTIES:
-:TANGLE: config/pipeline/geant4_chain_module.conf
+:HEADER-ARGS: :tangle config/pipeline/geant4_chain_module.conf
 :END:
 
 This =geant4_chain_module= provides a =chain_module= in order to simulate first
 and then analyse the results of simulation through the [[Validation module][Geant4 validation module]].
 *** Module preamble
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
 #+END_SRC
 *** Declaration & description
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="geant4_chain_module" type="dpp::chain_module"]
 
   #@description A module to chain several modules
 #+END_SRC
 
 *** Logging priority
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description Logging priority
   logging.priority : string = "warning"
 #+END_SRC
 
 *** Modules to be chained
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The list of processing modules to be applied (in this order)
   modules : string[2] =          \
       "geant4_simulation_module" \
@@ -2287,7 +2299,7 @@ and then analyse the results of simulation through the [[Validation module][Gean
 * Services
 :PROPERTIES:
 :CUSTOM_ID: sec::services
-:TANGLE: config/pipeline/services.conf
+:HEADER-ARGS: :tangle config/pipeline/services.conf
 :END:
 
 A service generally hosts a specific resource that can be shared by many other
@@ -2296,7 +2308,7 @@ software components, including other services or data processing modules (see
 
 ** Preamble
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description A sample list of setups
   #@key_label   "name"
   #@meta_label  "type"
@@ -2304,7 +2316,7 @@ software components, including other services or data processing modules (see
 
 ** Context service
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="Ctx" type="dpp::context_service"]
 
   #@description Logging priority
@@ -2327,7 +2339,7 @@ geometry and material construction of the detector. This service, only declared
 here, can be used by several operations like calibration, particle track
 reconstruction ... but all of them will use the same geometry.
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="Geo" type="geomtools::geometry_service"]
 
   #@description Logging priority
@@ -2338,10 +2350,10 @@ reconstruction ... but all of them will use the same geometry.
       "@geant4_validation_dir:config/geometry/manager.conf"
 
   #@description Embedded SuperNEMO geometry manager must build its mapping lookup table
-  manager.build_mapping : boolean = 1
+  manager.build_mapping : boolean = true
 
   #@description Embedded geometry manager's mapping lookup table does not exclude any geometry category
-  manager.no_excluded_categories : boolean = 1
+  manager.no_excluded_categories : boolean = true
 #+END_SRC
 
 ** Histogram service
@@ -2350,7 +2362,7 @@ The histogram service provides an esay way to handle histogram plot from
 different modules (mainly plot modules). It provides a service where 1D or 2D
 histograms can be added to a histogram dictionnary.
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   [name="Histo" type="dpp::histogram_service"]
 
   #@description Logging priority
@@ -2360,14 +2372,14 @@ histograms can be added to a histogram dictionnary.
   pool.description : string = "Geant4 histograms"
 #+END_SRC
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The main configuration file for the embedded histogram manager
   pool.histo.setups : string[1] as path = \
       "@geant4_validation_dir:config/pipeline/histogram_templates.conf"
 #+END_SRC
 
 Finally, all histograms created can be stored inside ROOT files or XML archives.
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   #@description The ouput file where to store the histograms
   output_files : string[2] as path =                        \
       "/tmp/${USER}/bayeux.d/geant4_validation_histos.root" \
@@ -2386,7 +2398,7 @@ system used is =cmake= and a =CMakeLists.txt= file is provided to correctly
 setup the dependences. Nevertheless, this implies that you have already and
 correctly installed [[https://nemo.lpc-caen.in2p3.fr/wiki/Software/Cadfael][Cadfael]], [[https://nemo.lpc-caen.in2p3.fr/wiki/Software/Bayeux][Bayeux]] and Falaise. Then, you can configure, build
 and install the =geant4_validation= module by doing
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   mkdir {build,install} && cd build
   cmake                                               \
       -DCMAKE_PREFIX_PATH="<path to Bayeux install>"  \
@@ -2412,7 +2424,7 @@ module manager file and the name of the module to be run /i.e./
 library(ies) which holds the needed modules. You can use the =dlls.conf= file
 built in Section [[DLL loader]] by writing
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   bxdpp_processing                                                     \
       --dlls-config $PWD/config/pipeline/dlls.conf                     \
       --module-manager-config $PWD/config/pipeline/module_manager.conf \
@@ -2437,7 +2449,7 @@ visualize the result of the simulation. The next command launches the
 =flvisualize= with the dedicated style file defined in Section [[Visualization
 settings]].
 
-#+BEGIN_SRC sh
+#+BEGIN_SRC shell
   flvisualize                                                             \
       --datatools::resource-path="geant4_validation_dir@$PWD"             \
       --detector-config-file $PWD/config/geometry/manager.conf            \
